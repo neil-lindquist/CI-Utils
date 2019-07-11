@@ -29,7 +29,7 @@ exec ros -Q -- $0 "$@"
       ,@body)
     `(progn
       ; Need to manually load the local repository when not using coveralls
-      (load-project-systems)
+      (ci-utils:load-project-systems)
       ,@body)))
 
 
