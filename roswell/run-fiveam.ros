@@ -67,5 +67,5 @@ Options
       (when loaded-systems
         (ql:quickload loaded-systems :verbose t))
       (apply-coveralls excluded
-        (unless (5am:run! (mapcar 'read-from-string tests))
+        (unless (fiveam:run! (mapcar 'read-from-string tests))
           (uiop:quit 1))))))

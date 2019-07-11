@@ -30,4 +30,4 @@ install:
   - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh
 
 script:
-  - roswell/run-fiveam.ros :travis-tests :base-tests
+  - roswell/run-fiveam.ros -l ci-utils/test :travis-tests :base-tests
