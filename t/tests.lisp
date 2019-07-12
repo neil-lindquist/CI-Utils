@@ -12,6 +12,11 @@
   (is (eq :travis-ci (service)))
   (is (string= (uiop:getenv "TRAVIS_BUILD_DIR") (build-dir))))
 
+(test :circleci-tests
+  (is-true (member :circleci *features*))
+  (is-false (member :travis-ci *features*))
+  (is (eq :circle-ci (service)))
+  (is (string= (uiop:getenv "CIRCLE_WORKING_DIRECTORY") (build-dir))))
 
 (test :user-tests
   (is-true (member :not-ci *features*))
