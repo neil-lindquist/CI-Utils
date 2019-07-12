@@ -18,6 +18,12 @@
   (is (eq :circleci (service)))
   (is (string= (uiop:getenv "CIRCLE_WORKING_DIRECTORY") (build-dir))))
 
+(test :appveyor-tests
+  (is-true (member :appveyor *features*))
+  (is-false (member :circleci *features*))
+  (is (eq :appveyor (service)))
+  (is (string= (uiop:getenv "APPVEYOR_BUILD_FOLDER") (build-dir))))
+
 (test :user-tests
   (is-true (member :not-ci *features*))
   (is-false (member :ci *features*))
