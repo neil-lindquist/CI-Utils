@@ -7,6 +7,7 @@
 
 
 (test :travis-tests
+  #+cmu (format t "features = ~S~%" *features*)
   (is-true (member :travis-ci *features*))
   (is-false (member :circleci *features*))
   (is (eq :travis-ci (service)))

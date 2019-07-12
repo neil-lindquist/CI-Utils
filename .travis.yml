@@ -19,10 +19,7 @@ env:
     - LISP=ecl
     - LISP=alisp
     - LISP=ccl-bin
-
-matrix:
-  allow_failures:
-    - LISP=cmucl # CMU CL just doesn't recognize things getting added to *features*
+    - LISP=cmucl
 
 matrix:
   fast_finish: true
