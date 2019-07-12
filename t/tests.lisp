@@ -8,12 +8,14 @@
 
 (test :travis-tests
   (is-true (member :travis-ci *features*))
+  (is-false (member :circleci *features*))
   (is (eq :travis-ci (service)))
   (is (string= (uiop:getenv "TRAVIS_BUILD_DIR") (build-dir))))
 
 
 (test :user-tests
   (is-true (member :not-ci *features*))
+  (is-false (member :ci *features*))
   (signals unknown-ci-platform (service))
   (signals unknown-ci-platform (build-dir)))
 
@@ -21,6 +23,10 @@
   :description "The base tests.  These tests will fail on a non-CI platform")
 
 (test load-project-systems
+  (is-true (member :ci *features*))
+  (is-false (member :not-ci *features*))
+  (is-false (member :unknown-ci *features*))
+
   (load-project-systems)
   (load-project-systems :force t)
 
