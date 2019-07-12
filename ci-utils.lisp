@@ -1,5 +1,6 @@
 (uiop:define-package :ci-utils
-  (:use :cl)
+  (:use :cl
+        :alexandria)
   (:export #:service
            #:build-dir
 
@@ -10,12 +11,20 @@
 (in-package :ci-utils)
 
 ; set platform feature
-(pushnew (cond
-           ((uiop:getenvp "TRAVIS") :travis-ci)
-           (t :not-ci))
-         *features*)
+(pushnew (if (uiop:getenvp "CI")
+           :ci
+           :not-ci)
+         *features)
 
-#-not-ci (pushnew :ci *features*)
+#+ci (pushnew (cond
+                ((uiop:getenvp "TRAVIS") :travis-ci)
+                ((uiop:getenvp "CIRCLECI") :circleci)
+                ((uiop:getenvp "APPVEYOR") :appveyor)
+                ((uiop:getenvp "GITLAB_CI") :gitlab-ci)
+                (t :unknown-ci))
+              *features*)
+
+
 
 (define-condition unknown-ci-platform ()
   ()
@@ -24,13 +33,19 @@
 (defun service ()
   "Returns the CI service being used."
   #+travis-ci :travis-ci
-  #+not-ci (error 'unknown-ci-platform))
+  #+circleci :circleci
+  #+appveyor :appveyor
+  #+gitlab-ci :gitlab-ci
+  #+(or not-ci unknown-ci) (error 'unknown-ci-platform))
 
 (defun build-dir ()
   "Returns the directory that the code was copied into"
   #+travis-ci (uiop:getenv "TRAVIS_BUILD_DIR")
-  #+not-ci (restart-case (error 'unknown-ci-platform)
-             (use-value (value) value)))
+  #+circleci (uiop:getenv "CIRCLE_WORKING_DIRECTORY")
+  #+appveyor  (uiop:getenv "APPVEYOR_BUILD_FOLDER")
+  #+gitlab-ci (uiop:getenv "CI_PROJECT_DIR")
+  #+(or not-ci unknown-ci) (restart-case (error 'unknown-ci-platform)
+                             (use-value (value) value)))
 
 
 
