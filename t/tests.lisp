@@ -15,7 +15,7 @@
 (test :circleci-tests
   (is-true (member :circleci *features*))
   (is-false (member :travis-ci *features*))
-  (is (eq :circle-ci (service)))
+  (is (eq :circleci (service)))
   (is (string= (uiop:getenv "CIRCLE_WORKING_DIRECTORY") (build-dir))))
 
 (test :user-tests
