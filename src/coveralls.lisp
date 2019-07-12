@@ -1,7 +1,8 @@
 (uiop:define-package :ci-utils/coveralls
   (:use :cl
         :ci-utils)
-  (:export #:with-coveralls))
+  (:export #:with-coveralls
+           #:coverage-excluded))
 
 (in-package :ci-utils/coveralls)
 
