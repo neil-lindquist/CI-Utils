@@ -1,6 +1,5 @@
 (uiop:define-package :ci-utils
-  (:use :cl
-        :alexandria)
+  (:use :cl)
   (:export #:service
            #:build-dir
 
@@ -9,21 +8,6 @@
            #:load-project-systems))
 
 (in-package :ci-utils)
-
-; set platform feature
-(pushnew (if (uiop:getenvp "CI")
-           :ci
-           :not-ci)
-         *features)
-
-#+ci (pushnew (cond
-                ((uiop:getenvp "TRAVIS") :travis-ci)
-                ((uiop:getenvp "CIRCLECI") :circleci)
-                ((uiop:getenvp "APPVEYOR") :appveyor)
-                ((uiop:getenvp "GITLAB_CI") :gitlab-ci)
-                (t :unknown-ci))
-              *features*)
-
 
 
 (define-condition unknown-ci-platform ()
