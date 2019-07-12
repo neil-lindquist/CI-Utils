@@ -8,9 +8,8 @@ exec ros -Q -- $0 "$@"
 ; https://github.com/fukamachi/prove/blob/master/roswell/run-prove.ros
 ; See NOTICES.md for a copy of the license
 
-;cmucl crashes without verbose on
-(ql:quickload '(:fiveam :iterate) :verbose (member :cmu *features*))
-(asdf:load-system :ci-utils)
+;cmucl crashes with silent on
+(ql:quickload '(:ci-utils :fiveam :iterate) :silent (not (member :cmu *features*)))
 
 (defpackage :ros.script.run-fiveam
   (:use :cl
@@ -65,7 +64,7 @@ Options
     ;evaluate tests here with `loaded-systems`, `excluded`, and `tests` in scope
     (finally
       (when loaded-systems
-        (ql:quickload loaded-systems :verbose t))
+        (ql:quickload loaded-systems))
       (apply-coveralls excluded
         (unless (fiveam:run! (mapcar 'read-from-string tests))
           (uiop:quit 1))))))
