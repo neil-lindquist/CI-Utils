@@ -15,11 +15,19 @@ env:
     - ROSWELL_INSTALL_DIR=$HOME/.roswell
   matrix:
     - LISP=sbcl-bin
+      COVERALLS_TEST=:noncoveralls-tests
+    - LISP=sbcl-bin COVERALLS=true
+      COVERALLS_TEST=:coveralls-tests
     - LISP=abcl
+      COVERALLS_TEST=:noncoveralls-tests
     - LISP=ecl
+      COVERALLS_TEST=:noncoveralls-tests
     - LISP=alisp
+      COVERALLS_TEST=:noncoveralls-tests
     - LISP=ccl-bin
+      COVERALLS_TEST=:noncoveralls-tests
     - LISP=cmucl
+      COVERALLS_TEST=:noncoveralls-tests
 
 matrix:
   fast_finish: true
@@ -33,4 +41,4 @@ install:
   - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh
 
 script:
-  - roswell/run-fiveam.ros -l ci-utils/test :travis-tests :base-tests
+  - roswell/run-fiveam.ros -l ci-utils/test :travis-tests $COVERALLS_TEST :base-tests

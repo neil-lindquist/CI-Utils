@@ -8,6 +8,7 @@ If the `CI` environmental variable is set, then `:ci` is added to `*features*`.
 Otherwise, `:not-ci` is added.
 In addition, the following platforms are recognized and supported.
 If `CI` is set but the platform is unknown, then `:unknown-ci` is added to `*features*`.
+Finally, if the `COVERALLS` environmental variable is set, then `:coveralls` is added to `*features*`.
 
 | Platform  |  Feature   | Tested |
 |:---------:|:----------:|:------:|

@@ -27,4 +27,4 @@ install:
 build: off
 
 test_script:
-  - ros -Q -- c:\Users\appveyor\.roswell\local-projects\ci-utils\roswell\run-fiveam.ros -l ci-utils/test :appveyor-tests :base-tests
+  - ros -Q -- c:\Users\appveyor\.roswell\local-projects\ci-utils\roswell\run-fiveam.ros -l ci-utils/test :appveyor-tests :base-tests :noncoveralls-tests

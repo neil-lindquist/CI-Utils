@@ -11,4 +11,4 @@ jobs:
        - run: PATH=~/.roswell/bin:$PATH
        - run: curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | bash
        - run: echo "(:tree \"$CIRCLE_WORKING_DIRECTORY/\")" > "$HOME/.config/common-lisp/source-registry.conf.d/ci.conf"
-       - run: roswell/run-fiveam.ros -l ci-utils/test :circleci-tests :base-tests
+       - run: roswell/run-fiveam.ros -l ci-utils/test :circleci-tests :noncoveralls-tests :base-tests

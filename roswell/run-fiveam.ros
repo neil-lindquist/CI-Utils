@@ -9,27 +9,12 @@ exec ros -Q -- $0 "$@"
 ; See NOTICES.md for a copy of the license
 
 ;cmucl crashes with silent on
-(ql:quickload '(:ci-utils :fiveam :iterate) :silent (not (member :cmu *features*)))
+(ql:quickload '(:ci-utils :ci-utils/coveralls :fiveam :iterate) :silent (not (member :cmu *features*)))
 
 (defpackage :ros.script.run-fiveam
   (:use :cl
         :iterate))
 (in-package :ros.script.run-fiveam)
-
-
-(when (uiop:getenv "COVERALLS")
-  (ql:quickload :cl-coveralls :silent t))
-
-
-(defmacro apply-coveralls (exclude &rest body)
-  "Wraps the body with the `with-coveralls` macro if coveralls is enabled"
-  (if (uiop:getenv "COVERALLS")
-    `(,(intern (string :with-coveralls) :coveralls) (:exclude ,exclude)
-      ,@body)
-    `(progn
-      ; Need to manually load the local repository when not using coveralls
-      (ci-utils:load-project-systems)
-      ,@body)))
 
 
 (defun show-help ()
@@ -65,6 +50,7 @@ Options
     (finally
       (when loaded-systems
         (ql:quickload loaded-systems))
-      (apply-coveralls excluded
+      (setf excluded (nconc excluded (ci-utils/coveralls:coverage-excluded)))
+      (ci-utils/coveralls:with-coveralls excluded
         (unless (fiveam:run! (mapcar 'read-from-string tests))
           (uiop:quit 1))))))

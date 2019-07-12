@@ -31,6 +31,14 @@
   (signals unknown-ci-platform (service))
   (signals unknown-ci-platform (build-dir)))
 
+
+(test :coveralls-tests
+  (is-true (member :coveralls *features*))
+  (is (equal '("tests" "test-launcher.txt") (coverage-excluded))))
+
+(test :noncoveralls-tests
+  (is-false (member :coveralls *features*)))
+
 (def-suite* :base-tests
   :description "The base tests.  These tests will fail on a non-CI platform")
 

@@ -13,3 +13,6 @@
                  ((uiop:getenvp "GITLAB_CI") :gitlab-ci)
                  (t :unknown-ci))
                *features*)))
+
+(when (uiop:getenvp "COVERALLS")
+  (pushnew :coveralls *features*))
