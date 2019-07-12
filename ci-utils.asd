@@ -4,10 +4,10 @@
   :version "0.0.0"
   :author "Neil Lindquist <NeilLindquist5@gmail.com>"
   :license "MIT"
+  :depends-on ("ci-utils-features")
   :pathname "src"
   :serial t
-  :components ((:file "features")
-               (:file "ci-utils"))
+  :components ((:file "ci-utils"))
   :in-order-to ((test-op (test-op "ci-utils/test"))))
 
 (defsystem "ci-utils/coveralls"
@@ -15,7 +15,7 @@
   :version "0.0.0"
   :author "Neil Lindquist <NeilLindquist5@gmail.com>"
   :license "MIT"
-  :defsystem-depends-on ("ci-utils")
+  :defsystem-depends-on ("ci-utils-features")
   :depends-on ("ci-utils"
                (:feature :coveralls "cl-coveralls")
                "split-sequence")
@@ -28,7 +28,8 @@
   :description "Test for CI-Utils"
   :author "Neil Lindquist <NeilLindquist5@gmail.com>"
   :license "MIT"
-  :depends-on ("ci-utils"
+  :depends-on ("ci-utils-features"
+               "ci-utils"
                "ci-utils/coveralls"
                "fiveam")
   :pathname "t"
