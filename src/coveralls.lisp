@@ -19,7 +19,8 @@
 (defun coverage-excluded ()
   "Gets the contents of the COVERAGE_EXCLUDED environemental variable as a list
    of path strings"
-  ; Copied from Eitaro Fukamachi's run-prove under the terms of the MIT license
+  ; Copied from Eitaro Fukamachi's run-prove under the MIT license
+  ; https://github.com/fukamachi/prove/blob/master/roswell/run-prove.ros
   ; See NOTICE.md for a copy of the license text
   (split-sequence:split-sequence #\:
                                  (or (uiop:getenv "COVERAGE_EXCLUDE") "")

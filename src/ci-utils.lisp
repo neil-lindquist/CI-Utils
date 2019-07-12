@@ -33,12 +33,11 @@
 
 
 
-; This loop is a derived from code in Eitaro Fukamachi's cl-coveralls
-; Used under the BSD 2-Clause License
-; https://github.com/fukamachi/cl-coveralls/blob/master/src/cl-coveralls.lisp
-; See NOTICES.md for a copy of the license
 (defun load-project-systems (&key force)
   "Loads the root project in each asd file in the build directory."
+  ; Derived from Eitaro Fukamachi's cl-coveralls under the BSD 2-Clause License
+  ; https://github.com/fukamachi/cl-coveralls/blob/master/src/cl-coveralls.lisp
+  ; See NOTICES.md for a copy of the license
   (loop for file in (uiop:directory-files
                       (uiop:ensure-directory-pathname
                         (build-dir)))

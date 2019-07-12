@@ -4,10 +4,6 @@
 exec ros -Q -- $0 "$@"
 |#
 
-; Some code is derived from Eitaro Fukamachi's run-prove, under the MIT license
-; https://github.com/fukamachi/prove/blob/master/roswell/run-prove.ros
-; See NOTICES.md for a copy of the license
-
 ;cmucl crashes with silent on
 (ql:quickload '(:ci-utils :ci-utils/coveralls :fiveam :iterate) :silent (not (member :cmu *features*)))
 
