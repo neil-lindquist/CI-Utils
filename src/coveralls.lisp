@@ -7,14 +7,14 @@
 (in-package :ci-utils/coveralls)
 
 
-(defmacro with-coveralls (exclude &rest body)
+(defmacro with-coveralls (exclude &body body)
   "Wraps the body with the `coveralls:with-coveralls` macro if coveralls is enabled"
   (declare (ignorable exclude))
   #+coveralls `(coveralls:with-coveralls (:exclude ,exclude)
                  ,@body)
   #-coveralls`(progn
                 ; Need to manually load the local repository when not using coveralls
-                (ci-utils:load-project-systems)
+                #+ci (ci-utils:load-project-systems)
                 ,@body))
 
 (defun coverage-excluded ()
@@ -24,5 +24,5 @@
   ; https://github.com/fukamachi/prove/blob/master/roswell/run-prove.ros
   ; See NOTICE.md for a copy of the license text
   (split-sequence:split-sequence #\:
-                                 (or (uiop:getenv "COVERAGE_EXCLUDE") "")
+                                 (or (uiop:getenvp "COVERAGE_EXCLUDE") "")
                                  :remove-empty-subseqs t))

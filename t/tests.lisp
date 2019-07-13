@@ -10,24 +10,24 @@
   #+cmu (format t "features = ~S~%" *features*)
   (is-true (member :travis-ci *features*))
   (is-false (member :circleci *features*))
-  (is (eq :travis-ci (service))))
+  (is (eq :travis-ci (platform))))
 
 (test :circleci-tests
   (is-true (member :circleci *features*))
   (is-false (member :travis-ci *features*))
-  (is (eq :circleci (service))))
+  (is (eq :circleci (platform))))
 
 (test :appveyor-tests
   (is-true (member :appveyor *features*))
   (is-false (member :circleci *features*))
-  (is (eq :appveyor (service))))
+  (is (eq :appveyor (platform))))
 
 (test :user-tests
   (is-true (member :not-ci *features*))
   (is-false (member :ci *features*))
   (is-false (member :unknown-ci *features*))
   (is-false (member :travis-ci *features*))
-  (signals unknown-ci-platform (service))
+  (signals unknown-ci-platform (platform))
   (signals unknown-ci-platform (build-dir)))
 
 
@@ -55,4 +55,4 @@
   (load-project-systems :force t)
 
   ;ensure re-adding the system doesn't spam features
-  (is (= 1 (count (service) *features*))))
+  (is (= 1 (count (platform) *features*))))

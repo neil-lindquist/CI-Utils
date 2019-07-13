@@ -1,6 +1,6 @@
 (uiop:define-package :ci-utils
   (:use :cl)
-  (:export #:service
+  (:export #:platform
            #:build-dir
 
            #:unknown-ci-platform
@@ -14,8 +14,8 @@
   ()
   (:report "Not running on a known CI platform"))
 
-(defun service ()
-  "Returns the CI service being used."
+(defun platform ()
+  "Returns the current CI platform."
   #+travis-ci :travis-ci
   #+circleci :circleci
   #+appveyor :appveyor
