@@ -34,7 +34,7 @@
 
 (test :coveralls-tests
   (is-true (member :coveralls *features*))
-  (is (equal '("tests" "test-launcher.txt") (ci-utils/coveralls:coverage-excluded))))
+  (is (equal '("t" "test-launcher.txt") (ci-utils/coveralls:coverage-excluded))))
 
 (test :noncoveralls-tests
   (is-false (member :coveralls *features*)))

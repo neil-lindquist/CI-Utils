@@ -16,7 +16,7 @@ env:
   matrix:
     - LISP=sbcl-bin
       COVERALLS_TEST=:noncoveralls-tests
-    - LISP=sbcl-bin COVERALLS=true COVERAGE_EXCLUDE=tests:test-launcher.txt
+    - LISP=sbcl-bin COVERALLS=true COVERAGE_EXCLUDE=t:test-launcher.txt
       COVERALLS_TEST=:coveralls-tests
     - LISP=abcl
       COVERALLS_TEST=:noncoveralls-tests

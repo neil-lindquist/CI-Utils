@@ -5,7 +5,8 @@ exec ros -Q -- $0 "$@"
 |#
 
 ;cmucl crashes with silent on
-(ql:quickload '(:ci-utils :ci-utils/coveralls :fiveam :iterate) :silent (not (member :cmu *features*)))
+(ql:quickload '(:ci-utils :ci-utils/coveralls :fiveam :iterate)
+              :silent (not (member :cmu *features*)))
 
 (defpackage :ros.script.run-fiveam
   (:use :cl
@@ -17,14 +18,16 @@ exec ros -Q -- $0 "$@"
   (format t "~
 Usage: fiveam-run [options] <test cases and suites>...
 Loads the system with quicklisp then calls fiveam:run! with a list of the rest
-of the arguments.  Each test case is parsed with read-from-string, so a list of
-systems can be read and package-indentified symbols can be used.  Note that any
-systems in the travis build directory are automatically loaded.
+of the arguments.  Each test case is parsed with read-from-string, so test names
+in non-builtin packages can be used.  Additionally, each root system in the
+build directory are automatically loaded.  Finally, the environmental variable
+COVERAGE_EXCLUDED is read as a colon seperated list of paths to exclude from
+measuring coverage, in addition to those specified as an argument.
 Options
---help|-h - prints this help message
+--help|-h                     - prints this help message
 --quickload|-l <sytem>        - lists an additional system to load
---coverage-exclude|-e <files> - lists files and directories to be excluded from
-                                the coverage measurement")
+--coverage-exclude|-e <file>  - lists a path to excluded from the coverage
+                                measurement")
   (uiop:quit 2))
 
 
@@ -44,9 +47,9 @@ Options
        (collect arg into tests)))
     ;evaluate tests here with `loaded-systems`, `excluded`, and `tests` in scope
     (finally
-      (when loaded-systems
-        (ql:quickload loaded-systems))
       (setf excluded (nconc excluded (ci-utils/coveralls:coverage-excluded)))
       (ci-utils/coveralls:with-coveralls excluded
+        (when loaded-systems
+          (ql:quickload loaded-systems))
         (unless (fiveam:run! (mapcar 'read-from-string tests))
           (uiop:quit 1))))))
