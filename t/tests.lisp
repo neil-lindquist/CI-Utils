@@ -47,7 +47,7 @@
   (is-false (member :unknown-ci *features*)))
 
 (test build-dir
-  (is (string= (uiop:getcwd) (build-dir))))
+  (is (equal (uiop:getcwd) (truename (build-dir)))))
 
 (test load-project-systems
   ; mainly just check that they don't crash

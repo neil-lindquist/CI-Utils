@@ -26,7 +26,7 @@
   "Returns the directory that the code was copied into"
   #+travis-ci (uiop:getenv "TRAVIS_BUILD_DIR")
   #+circleci (uiop:getenv "CIRCLE_WORKING_DIRECTORY")
-  #+appveyor  (uiop:getenv "APPVEYOR_BUILD_FOLDER")
+  #+appveyor (string-upcase (uiop:getenv "APPVEYOR_BUILD_FOLDER") :end 1)
   #+gitlab-ci (uiop:getenv "CI_PROJECT_DIR")
   #+(or not-ci unknown-ci) (restart-case (error 'unknown-ci-platform)
                              (use-value (value) value)))
