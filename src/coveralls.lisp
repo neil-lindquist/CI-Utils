@@ -9,6 +9,7 @@
 
 (defmacro with-coveralls (exclude &rest body)
   "Wraps the body with the `coveralls:with-coveralls` macro if coveralls is enabled"
+  (declare (ignorable exclude))
   #+coveralls `(coveralls:with-coveralls (:exclude ,exclude)
                  ,@body)
   #-coveralls`(progn

@@ -34,4 +34,5 @@
                "fiveam")
   :pathname "t"
   :components ((:file "tests"))
-  :perform (test-op (o c) (symbol-call '#:fiveam '#:run! :user-tests)))
+  :perform (test-op (o c) (symbol-call '#:fiveam '#:run! :user-tests
+                                                         :noncoveralls-tests)))

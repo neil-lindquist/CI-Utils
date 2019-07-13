@@ -10,24 +10,23 @@
   #+cmu (format t "features = ~S~%" *features*)
   (is-true (member :travis-ci *features*))
   (is-false (member :circleci *features*))
-  (is (eq :travis-ci (service)))
-  (is (string= (uiop:getenv "TRAVIS_BUILD_DIR") (build-dir))))
+  (is (eq :travis-ci (service))))
 
 (test :circleci-tests
   (is-true (member :circleci *features*))
   (is-false (member :travis-ci *features*))
-  (is (eq :circleci (service)))
-  (is (string= (uiop:getenv "CIRCLE_WORKING_DIRECTORY") (build-dir))))
+  (is (eq :circleci (service))))
 
 (test :appveyor-tests
   (is-true (member :appveyor *features*))
   (is-false (member :circleci *features*))
-  (is (eq :appveyor (service)))
-  (is (string= (uiop:getenv "APPVEYOR_BUILD_FOLDER") (build-dir))))
+  (is (eq :appveyor (service))))
 
 (test :user-tests
   (is-true (member :not-ci *features*))
   (is-false (member :ci *features*))
+  (is-false (member :unknown-ci *features*))
+  (is-false (member :travis-ci *features*))
   (signals unknown-ci-platform (service))
   (signals unknown-ci-platform (build-dir)))
 
@@ -42,11 +41,16 @@
 (def-suite* :base-tests
   :description "The base tests.  These tests will fail on a non-CI platform")
 
-(test load-project-systems
+(test *features*
   (is-true (member :ci *features*))
   (is-false (member :not-ci *features*))
-  (is-false (member :unknown-ci *features*))
+  (is-false (member :unknown-ci *features*)))
 
+(test build-dir
+  (is (string= (uiop:getcwd) (build-dir))))
+
+(test load-project-systems
+  ; mainly just check that they don't crash
   (load-project-systems)
   (load-project-systems :force t)
 
