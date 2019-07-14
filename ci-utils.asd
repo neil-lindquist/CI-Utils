@@ -28,10 +28,10 @@
   :description "Test for CI-Utils"
   :author "Neil Lindquist <NeilLindquist5@gmail.com>"
   :license "MIT"
-  :depends-on ("ci-utils-features"
-               "ci-utils"
+  :depends-on ("ci-utils"
                "ci-utils/coveralls"
-               "fiveam")
+               "fiveam"
+               "split-sequence")
   :pathname "t"
   :components ((:file "tests"))
   :perform (test-op (o c) (symbol-call '#:fiveam '#:run! '(:user-tests

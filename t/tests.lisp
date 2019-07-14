@@ -10,25 +10,37 @@
   #+cmu (format t "features = ~S~%" *features*)
   (is-true (member :travis-ci *features*))
   (is-false (member :circleci *features*))
-  (is (eq :travis-ci (platform))))
+  (is (eq :travis-ci (platform)))
+  (is (string= (uiop:getenv "TRAVIS_BRANCH") (branch)))
+  (is (eq (not (null (uiop:getenvp "TRAVIS_PULL_REQUEST_BRANCH")))
+          (is-pr))))
 
 (test :circleci-tests
   (is-true (member :circleci *features*))
   (is-false (member :travis-ci *features*))
-  (is (eq :circleci (platform))))
+  (is (eq :circleci (platform)))
+  (is (string= (uiop:getenv "CIRCLE_BRANCH") (branch)))
+  (is (eq (not (null (uiop:getenvp "CIRCLE_PULL_REQUEST")))
+          (is-pr))))
 
 (test :appveyor-tests
   (is-true (member :appveyor *features*))
   (is-false (member :circleci *features*))
-  (is (eq :appveyor (platform))))
+  (is (eq :appveyor (platform)))
+  (is (string= (uiop:getenv "APPVEYOR_REPO_BRANCH") (branch)))
+  (is (eq (not (null (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")))
+          (is-pr))))
 
 (test :user-tests
   (is-true (member :not-ci *features*))
   (is-false (member :ci *features*))
   (is-false (member :unknown-ci *features*))
   (is-false (member :travis-ci *features*))
+
   (signals unknown-ci-platform (platform))
-  (signals unknown-ci-platform (build-dir)))
+  (signals unknown-ci-platform (build-dir))
+  (is-false (is-pr))
+  (signals unknown-ci-platform (branch)))
 
 
 (test :coveralls-tests

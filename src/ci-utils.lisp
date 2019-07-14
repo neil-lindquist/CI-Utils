@@ -2,6 +2,8 @@
   (:use :cl)
   (:export #:platform
            #:build-dir
+           #:branch
+           #:is-pr
 
            #:unknown-ci-platform
 
@@ -29,8 +31,25 @@
   #+appveyor (string-upcase (uiop:getenv "APPVEYOR_BUILD_FOLDER") :end 1)
   #+gitlab-ci (uiop:getenv "CI_PROJECT_DIR")
   #+(or not-ci unknown-ci) (restart-case (error 'unknown-ci-platform)
-                             (use-value (value) value)))
+                             (use-value (value) value)
+                             (use-cwd () (uiop:getcwd))))
 
+
+(defun is-pr ()
+  "Returns whether the build is for a pull/merge request"
+  #+travis-ci (not (string= "false" (uiop:getenv "TRAVIS_PULL_REQUEST")))
+  #+circleci (not (null (uiop:getenvp "CIRCLE_PULL_REQUESTS")))
+  #+appveyor (not (null (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")))
+  #+gitlab-ci (not (null (uiop:getenvp "CI_MERGE_REQUEST_ID")))
+  #+(or not-ci unknown-ci) nil)
+
+(defun branch ()
+  "Returns the name of the branch the build is from."
+  #+travis-ci (uiop:getenv "TRAVIS_BRANCH")
+  #+circleci (uiop:getenv "CIRCLE_BRANCH")
+  #+appveyor (uiop:getenv "APPVEYOR_REPO_BRANCH")
+  #+gitlab-ci (uiop:getenv "CI_COMMIT_REF_NAME")
+  #+(or not-ci unknown-ci) (error 'unknown-ci-platform))
 
 
 (defun load-project-systems (&key force)

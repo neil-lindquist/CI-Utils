@@ -48,6 +48,12 @@ Returns the keyword for the current platform (see table above).
 **Function** BUILD-DIR ()  
 Returns the directory that the repository was copied into.
 
+**Function** BRANCH ()
+Returns the name of the branch the build is from.
+
+**Function** IS-PR ()
+Returns whether the build is for a pull/merge request.
+
 **Function** LOAD-PROJECT-SYSTEMS (&key force)  
 Loads the root project in each asd file in the build directory.
 `force` is passed to `asdf:load-system`.
