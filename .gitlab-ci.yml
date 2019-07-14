@@ -1,0 +1,11 @@
+variables:
+  LISP: sbcl-bin
+
+before_script:
+  - PATH=~/.roswell/bin:$PATH
+  - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | bash
+  - echo "(:tree \"$CI_PROJECT_DIR/\")" > "$HOME/.config/common-lisp/source-registry.conf.d/ci.conf"
+
+test:
+  script:
+    - roswell/run-fiveam.ros -l ci-utils/test :gitlab-ci-tests :noncoveralls-tests :base-tests
