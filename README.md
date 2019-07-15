@@ -30,18 +30,18 @@ See `run-fiveam --help` for more information.
 
 #### Platform Features
 
-CI-Utils adds a few values to `*features*` that describe the current platform.
-First, either `:ci` or `:not-ci` is added, depending on the `CI` environmental variable (set by the major CI platforms).
+CI-Utils adds a few values to `*FEATURES*` that describe the current platform.
+First, either `:CI` or `:NOT-CI` is added, depending on the `CI` environmental variable (set by the major CI platforms).
 Known CI platforms have their name added (listed in the table below).
-If `CI` is set but the system is not a recognized CI platform, then `:unknown-ci` is added.
-Finally, if the `COVERALLS` environmental variable is set, then `:coveralls` is added.
+If `CI` is set but the system is not a recognized CI platform, then `:UNKNOWN-CI` is added.
+Finally, if the `COVERALLS` environmental variable is set, then `:COVERALLS` is added.
 
 | Platform  |  Symbol Name |
 |:---------:|:------------:|
-| Travis CI | `:travis-ci` |
-| Circle CI | `:circle-ci` |
-| Appveyor  | `:appveyor`  |
-| GitLab CI | `:gitlab-ci` |
+| Travis CI | `:TRAVIS-CI` |
+| Circle CI | `:CIRCLE-CI` |
+| Appveyor  | `:APPVEYOR`  |
+| GitLab CI | `:GITLAB-CI` |
 
 ### Lisp API
 
@@ -53,23 +53,21 @@ Returns the keyword for the current platform (see table above).
 **Function** BUILD-DIR ()  
 Returns the directory that the repository was copied into.
 
-**Function** BRANCH ()
+**Function** BRANCH ()  
 Returns the name of the branch the build is from.
 
-**Function** IS-PR ()
+**Function** IS-PR ()  
 Returns whether the build is for a pull/merge request.
 
-**Function** LOAD-PROJECT-SYSTEMS (&key force)  
+**Function** LOAD-PROJECT-SYSTEMS (&KEY FORCE)  
 Loads the root project in each asd file in the build directory.
-`force` is passed to `asdf:load-system`.
+`FORCE` is passed to `ASDF:LOAD-SYSTEM`.
 
 #### **Package** CI-UTILS/COVERALLS
 
-**Macro** WITH-COVERALLS (excluded &body body)  
-If the `:coveralls` feature is present, wraps the body in
-`cl-coveralls:with-coveralls` with the excluded paths passed.
-Otherwise, it loads the root systems for the project (like as is done in
-cl-coveralls) followed by the body.
+**Macro** WITH-COVERALLS (EXCLUDED &BODY BODY)  
+If the `:COVERALLS` feature is present, wraps the body in `CL-COVERALLS:WITH-COVERALLS` with the excluded paths passed.
+Otherwise, it loads the root systems for the project (like as is done in cl-coveralls) followed by the body.
 
 **Function** COVERAGE-EXCLUDED ()  
 Gets the contents of the `COVERAGE-EXCLUDED` environmental variable as a list of strings.
