@@ -1,5 +1,10 @@
 ## CI-Utils
 
+[![Travis Build Status](https://img.shields.io/travis/neil-lindquist/ci-utils.svg?logo=Travis)](https://travis-ci.org/neil-lindquist/CI-Utils)
+[![CircleCI Build Status](https://img.shields.io/circleci/build/github/neil-lindquist/CI-Utils.svg?logo=CircleCI)](https://circleci.com/gh/neil-lindquist/CI-Utils)
+[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/mm1swvm28hpp2oc5/branch/master?svg=true)](https://ci.appveyor.com/project/neil-lindquist/ci-utils/branch/master)
+[![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils.svg?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)
+
 CI-Utils is a set of utilities for working on continuous integration platforms, including a run script for the Fiveam test library.
 
 ### Installation
@@ -25,18 +30,18 @@ See `run-fiveam --help` for more information.
 
 #### Platform Features
 
-CI-Utils adds a handful of values to `*features*` that describe the current platform.
+CI-Utils adds a few values to `*features*` that describe the current platform.
 First, either `:ci` or `:not-ci` is added, depending on the `CI` environmental variable (set by the major CI platforms).
-Known CI platforms have their name added (listed in the table below),
+Known CI platforms have their name added (listed in the table below).
 If `CI` is set but the system is not a recognized CI platform, then `:unknown-ci` is added.
 Finally, if the `COVERALLS` environmental variable is set, then `:coveralls` is added.
 
-| Platform  |  Feature   | Tested |
-|:---------:|:----------:|:------:|
-| Travis CI | :travis-ci | [![Build Status](https://travis-ci.org/neil-lindquist/CI-Utils.svg?branch=master)](https://travis-ci.org/neil-lindquist/CI-Utils) |
-| Circle CI | :circle-ci | [![CircleCI](https://circleci.com/gh/neil-lindquist/CI-Utils.svg?style=svg)](https://circleci.com/gh/neil-lindquist/CI-Utils) |
-| Appveyor  | :appveyor  | [![Build status](https://ci.appveyor.com/api/projects/status/mm1swvm28hpp2oc5/branch/master?svg=true)](https://ci.appveyor.com/project/neil-lindquist/ci-utils/branch/master) |
-| GitLab CI | :gitlab-ci |   No   |
+| Platform  |  Symbol Name |
+|:---------:|:------------:|
+| Travis CI | `:travis-ci` |
+| Circle CI | `:circle-ci` |
+| Appveyor  | `:appveyor`  |
+| GitLab CI | `:gitlab-ci` |
 
 ### Lisp API
 
