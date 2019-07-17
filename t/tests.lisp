@@ -7,7 +7,6 @@
 
 
 (test :travis-tests
-  #+cmu (format t "features = ~S~%" *features*)
   (is-true (member :travis-ci *features*))
   (is-false (member :circleci *features*))
   (is (eq :travis-ci (platform)))
@@ -39,6 +38,14 @@
   (is (eq (not (null (uiop:getenvp "CI_MERGE_REQUEST_ID")))
           (pull-request-p))))
 
+
+(test :base-tests
+  (is-true (member :ci *features*))
+  (is-false (member :unknown-ci *features*))
+  (is-true (cip))
+  (is (equal (uiop:getcwd) (truename (build-dir)))))
+
+
 (test :user-tests
   (is-false (member :ci *features*))
   (is-false (member :unknown-ci *features*))
@@ -59,16 +66,3 @@
 (test :noncoveralls-tests
   (is-false (member :coveralls *features*))
   (is-false (ci-utils/coveralls:coverallsp)))
-
-(def-suite* :base-tests
-  :description "The base tests.  These tests will fail on a non-CI platform")
-
-(test *features*
-  (is-true (member :ci *features*))
-  (is-false (member :unknown-ci *features*)))
-
-(test predicates
-  (is-true (cip)))
-
-(test build-dir
-  (is (equal (uiop:getcwd) (truename (build-dir)))))
