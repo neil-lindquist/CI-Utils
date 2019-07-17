@@ -1,6 +1,7 @@
 (uiop:define-package :ci-utils
   (:use :cl)
-  (:export #:platform
+  (:export #:cip
+           #:platform
            #:build-dir
            #:branch
            #:is-pr
@@ -15,6 +16,11 @@
 (define-condition unknown-ci-platform ()
   ()
   (:report "Not running on a known CI platform"))
+
+(defun cip ()
+  "Whether lisp is running on a CI platform."
+  #+ci t
+  #-ci nil)
 
 (defun platform ()
   "Returns the current CI platform."

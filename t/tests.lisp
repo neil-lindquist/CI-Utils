@@ -45,6 +45,7 @@
   (is-false (member :unknown-ci *features*))
   (is-false (member :travis-ci *features*))
 
+  (is-false (cip))
   (signals unknown-ci-platform (platform))
   (signals unknown-ci-platform (build-dir))
   (is-false (is-pr))
@@ -53,10 +54,12 @@
 
 (test :coveralls-tests
   (is-true (member :coveralls *features*))
-  (is (equal '("t" "test-launcher.txt") (ci-utils/coveralls:coverage-excluded))))
+  (is (equal '("t" "test-launcher.txt") (ci-utils/coveralls:coverage-excluded)))
+  (is-true (ci-utils/coveralls:coverallsp)))
 
 (test :noncoveralls-tests
-  (is-false (member :coveralls *features*)))
+  (is-false (member :coveralls *features*))
+  (is-false (ci-utils/coveralls:coverallsp)))
 
 (def-suite* :base-tests
   :description "The base tests.  These tests will fail on a non-CI platform")
@@ -65,6 +68,9 @@
   (is-true (member :ci *features*))
   (is-false (member :not-ci *features*))
   (is-false (member :unknown-ci *features*)))
+
+(test predicates
+  (is-true (cip)))
 
 (test build-dir
   (is (equal (uiop:getcwd) (truename (build-dir)))))

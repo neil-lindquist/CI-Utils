@@ -1,11 +1,17 @@
 (uiop:define-package :ci-utils/coveralls
   (:use :cl
         :ci-utils)
-  (:export #:with-coveralls
+  (:export #:coverallsp
+           #:with-coveralls
            #:coverage-excluded))
 
 (in-package :ci-utils/coveralls)
 
+
+(defun coverallsp ()
+  "Whether the current systems has the `COVERALLS` environmental variable set"
+  #+coveralls t
+  #-coveralls nil)
 
 (defmacro with-coveralls (exclude &body body)
   "Wraps the body with the `coveralls:with-coveralls` macro if coveralls is enabled"
