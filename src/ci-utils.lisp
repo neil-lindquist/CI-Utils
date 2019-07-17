@@ -4,7 +4,7 @@
            #:platform
            #:build-dir
            #:branch
-           #:is-pr
+           #:pull-request-p
 
            #:unknown-ci-platform
 
@@ -41,7 +41,7 @@
                              (use-cwd () (uiop:getcwd))))
 
 
-(defun is-pr ()
+(defun pull-request-p ()
   "Returns whether the build is for a pull/merge request"
   #+travis-ci (not (string= "false" (uiop:getenv "TRAVIS_PULL_REQUEST")))
   #+circleci (not (null (uiop:getenvp "CIRCLE_PULL_REQUESTS")))

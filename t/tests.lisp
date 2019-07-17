@@ -13,7 +13,7 @@
   (is (eq :travis-ci (platform)))
   (is (string= (uiop:getenv "TRAVIS_BRANCH") (branch)))
   (is (eq (not (null (uiop:getenvp "TRAVIS_PULL_REQUEST_BRANCH")))
-          (is-pr))))
+          (pull-request-p))))
 
 (test :circleci-tests
   (is-true (member :circleci *features*))
@@ -21,7 +21,7 @@
   (is (eq :circleci (platform)))
   (is (string= (uiop:getenv "CIRCLE_BRANCH") (branch)))
   (is (eq (not (null (uiop:getenvp "CIRCLE_PULL_REQUEST")))
-          (is-pr))))
+          (pull-request-p))))
 
 (test :appveyor-tests
   (is-true (member :appveyor *features*))
@@ -29,7 +29,7 @@
   (is (eq :appveyor (platform)))
   (is (string= (uiop:getenv "APPVEYOR_REPO_BRANCH") (branch)))
   (is (eq (not (null (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")))
-          (is-pr))))
+          (pull-request-p))))
 
 (test :gitlab-ci-tests
   (is-true (member :gitlab-ci *features*))
@@ -37,7 +37,7 @@
   (is (eq :gitlab-ci (platform)))
   (is (string= (uiop:getenv "CI_COMMIT_REF_NAME") (branch)))
   (is (eq (not (null (uiop:getenvp "CI_MERGE_REQUEST_ID")))
-          (is-pr))))
+          (pull-request-p))))
 
 (test :user-tests
   (is-true (member :not-ci *features*))
@@ -48,7 +48,7 @@
   (is-false (cip))
   (signals unknown-ci-platform (platform))
   (signals unknown-ci-platform (build-dir))
-  (is-false (is-pr))
+  (is-false (pull-request-p))
   (signals unknown-ci-platform (branch)))
 
 
