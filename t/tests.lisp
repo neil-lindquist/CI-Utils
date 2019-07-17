@@ -45,10 +45,10 @@
   (is-false (member :travis-ci *features*))
 
   (is-false (cip))
-  (signals unknown-ci-platform (platform))
-  (signals unknown-ci-platform (build-dir))
+  (is-false (platform))
+  (is (equal (uiop:getcwd) (build-dir)))
   (is-false (pull-request-p))
-  (signals unknown-ci-platform (branch)))
+  (is-false (branch)))
 
 
 (test :coveralls-tests

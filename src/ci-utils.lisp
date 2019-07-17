@@ -6,16 +6,9 @@
            #:branch
            #:pull-request-p
 
-           #:unknown-ci-platform
-
            #:load-project-systems))
 
 (in-package :ci-utils)
-
-
-(define-condition unknown-ci-platform ()
-  ()
-  (:report "Not running on a known CI platform"))
 
 (defun cip ()
   "Whether lisp is running on a CI platform."
@@ -23,26 +16,27 @@
   #-ci nil)
 
 (defun platform ()
-  "Returns the current CI platform."
+  "Returns the current CI platform.  When on a non-ci platform, nil is returned."
   #+travis-ci :travis-ci
   #+circleci :circleci
   #+appveyor :appveyor
   #+gitlab-ci :gitlab-ci
-  #+(or (not ci) unknown-ci) (error 'unknown-ci-platform))
+  #+unknown-ci :unknown-ci
+  #-ci nil)
 
 (defun build-dir ()
-  "Returns the directory that the code was copied into"
+  "Returns the directory that the code was copied into.  When not on a known CI
+   platform, the current working directory is returned."
   #+travis-ci (uiop:getenv "TRAVIS_BUILD_DIR")
   #+circleci (uiop:getenv "CIRCLE_WORKING_DIRECTORY")
   #+appveyor (string-upcase (uiop:getenv "APPVEYOR_BUILD_FOLDER") :end 1)
   #+gitlab-ci (uiop:getenv "CI_PROJECT_DIR")
-  #+(or (not ci) unknown-ci) (restart-case (error 'unknown-ci-platform)
-                               (use-value (value) value)
-                               (use-cwd () (uiop:getcwd))))
+  #+(or (not ci) unknown-ci) (uiop:getcwd))
 
 
 (defun pull-request-p ()
-  "Returns whether the build is for a pull/merge request"
+  "Returns whether the build is for a pull/merge request.  Unknown and non-ci
+   platforms are considered to not be pull requests."
   #+travis-ci (not (string= "false" (uiop:getenv "TRAVIS_PULL_REQUEST")))
   #+circleci (not (null (uiop:getenvp "CIRCLE_PULL_REQUESTS")))
   #+appveyor (not (null (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")))
@@ -50,12 +44,13 @@
   #+(or (not ci) unknown-ci) nil)
 
 (defun branch ()
-  "Returns the name of the branch the build is from."
-  #+travis-ci (uiop:getenv "TRAVIS_BRANCH")
-  #+circleci (uiop:getenv "CIRCLE_BRANCH")
-  #+appveyor (uiop:getenv "APPVEYOR_REPO_BRANCH")
-  #+gitlab-ci (uiop:getenv "CI_COMMIT_REF_NAME")
-  #+(or (not ci) unknown-ci) (error 'unknown-ci-platform))
+  "Returns the name of the branch the build is from, or `NIL` for unknown and
+   non-ci platforms."
+  #+travis-ci (uiop:getenvp "TRAVIS_BRANCH")
+  #+circleci (uiop:getenvp "CIRCLE_BRANCH")
+  #+appveyor (uiop:getenvp "APPVEYOR_REPO_BRANCH")
+  #+gitlab-ci (uiop:getenvp "CI_COMMIT_REF_NAME")
+  #+(or (not ci) unknown-ci) nil)
 
 
 (defun load-project-systems (&key force)
