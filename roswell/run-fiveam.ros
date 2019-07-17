@@ -19,10 +19,11 @@ exec ros -Q -- $0 "$@"
 Usage: run-fiveam [options] <test cases and suites>...
 Loads the system with quicklisp then calls fiveam:run! with a list of the rest
 of the arguments.  Each test case is parsed with read-from-string, so test names
-in non-builtin packages can be used.  Additionally, each root system in the
-build directory are automatically loaded.  Finally, the environmental variable
+in non-builtin packages can be used.  Additionally, the environmental variable
 COVERAGE_EXCLUDED is read as a colon seperated list of paths to exclude from
 measuring coverage, in addition to those specified as an argument.
+Note that currently the systems in the project root are loaded with COVERALLS is
+enable.  This behavior is not to be relied on an may change in the feature
 Options
 --help|-h                     - prints this help message
 --quickload|-l <sytem>        - lists an additional system to load

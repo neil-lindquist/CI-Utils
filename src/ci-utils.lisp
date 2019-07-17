@@ -4,9 +4,7 @@
            #:platform
            #:build-dir
            #:branch
-           #:pull-request-p
-
-           #:load-project-systems))
+           #:pull-request-p))
 
 (in-package :ci-utils)
 
@@ -51,19 +49,3 @@
   #+appveyor (uiop:getenvp "APPVEYOR_REPO_BRANCH")
   #+gitlab-ci (uiop:getenvp "CI_COMMIT_REF_NAME")
   #+(or (not ci) unknown-ci) nil)
-
-
-(defun load-project-systems (&key force)
-  "Loads the root project in each asd file in the build directory."
-  ; Derived from Eitaro Fukamachi's cl-coveralls under the BSD 2-Clause License
-  ; https://github.com/fukamachi/cl-coveralls/blob/master/src/cl-coveralls.lisp
-  ; See NOTICES.md for a copy of the license
-  (loop for file in (uiop:directory-files
-                      (uiop:ensure-directory-pathname
-                        (build-dir)))
-      when (string= (pathname-type file) "asd")
-        do (let ((system-name (pathname-name file)))
-             #+quicklisp(if (asdf:component-loaded-p system-name)
-                          (asdf:load-system system-name :force force)
-                          (ql:quickload system-name))
-             #-quicklisp (asdf:load-system system-name :force force))))

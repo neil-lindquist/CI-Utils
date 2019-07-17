@@ -72,11 +72,3 @@
 
 (test build-dir
   (is (equal (uiop:getcwd) (truename (build-dir)))))
-
-(test load-project-systems
-  ; mainly just check that they don't crash
-  (load-project-systems)
-  (load-project-systems :force t)
-
-  ;ensure re-adding the system doesn't spam features
-  (is (= 1 (count (platform) *features*))))

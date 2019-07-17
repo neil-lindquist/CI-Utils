@@ -18,10 +18,8 @@
   (declare (ignorable exclude))
   #+coveralls `(coveralls:with-coveralls (:exclude ,exclude)
                  ,@body)
-  #-coveralls`(progn
-                ; Need to manually load the local repository when not using coveralls
-                #+ci (ci-utils:load-project-systems)
-                ,@body))
+  #-coveralls `(progn
+                 ,@body))
 
 (defun coverage-excluded ()
   "Gets the contents of the COVERAGE_EXCLUDED environemental variable as a list
