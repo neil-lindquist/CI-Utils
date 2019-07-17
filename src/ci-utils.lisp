@@ -28,7 +28,7 @@
   #+circleci :circleci
   #+appveyor :appveyor
   #+gitlab-ci :gitlab-ci
-  #+(or not-ci unknown-ci) (error 'unknown-ci-platform))
+  #+(or (not ci) unknown-ci) (error 'unknown-ci-platform))
 
 (defun build-dir ()
   "Returns the directory that the code was copied into"
@@ -36,9 +36,9 @@
   #+circleci (uiop:getenv "CIRCLE_WORKING_DIRECTORY")
   #+appveyor (string-upcase (uiop:getenv "APPVEYOR_BUILD_FOLDER") :end 1)
   #+gitlab-ci (uiop:getenv "CI_PROJECT_DIR")
-  #+(or not-ci unknown-ci) (restart-case (error 'unknown-ci-platform)
-                             (use-value (value) value)
-                             (use-cwd () (uiop:getcwd))))
+  #+(or (not ci) unknown-ci) (restart-case (error 'unknown-ci-platform)
+                               (use-value (value) value)
+                               (use-cwd () (uiop:getcwd))))
 
 
 (defun pull-request-p ()
@@ -47,7 +47,7 @@
   #+circleci (not (null (uiop:getenvp "CIRCLE_PULL_REQUESTS")))
   #+appveyor (not (null (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")))
   #+gitlab-ci (not (null (uiop:getenvp "CI_MERGE_REQUEST_ID")))
-  #+(or not-ci unknown-ci) nil)
+  #+(or (not ci) unknown-ci) nil)
 
 (defun branch ()
   "Returns the name of the branch the build is from."
@@ -55,7 +55,7 @@
   #+circleci (uiop:getenv "CIRCLE_BRANCH")
   #+appveyor (uiop:getenv "APPVEYOR_REPO_BRANCH")
   #+gitlab-ci (uiop:getenv "CI_COMMIT_REF_NAME")
-  #+(or not-ci unknown-ci) (error 'unknown-ci-platform))
+  #+(or (not ci) unknown-ci) (error 'unknown-ci-platform))
 
 
 (defun load-project-systems (&key force)

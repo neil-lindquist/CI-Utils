@@ -40,7 +40,6 @@
           (pull-request-p))))
 
 (test :user-tests
-  (is-true (member :not-ci *features*))
   (is-false (member :ci *features*))
   (is-false (member :unknown-ci *features*))
   (is-false (member :travis-ci *features*))
@@ -66,7 +65,6 @@
 
 (test *features*
   (is-true (member :ci *features*))
-  (is-false (member :not-ci *features*))
   (is-false (member :unknown-ci *features*)))
 
 (test predicates
