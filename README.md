@@ -15,6 +15,8 @@ If your are not using Roswell, copy the contents of this repository somewhere th
 
 ### Usage
 
+See [neil-lindquist.github.io/CI-Utils/API](neil-lindquist.github.io/CI-Utils/API) for documentation of the API.
+
 #### run-fiveam
 
 The `run-fiveam` Roswell script is designed to make running Fiveam tests simple.
@@ -42,32 +44,3 @@ Finally, if the `COVERALLS` environmental variable is set, then `:COVERALLS` is 
 | Circle CI | `:CIRCLE-CI` |
 | Appveyor  | `:APPVEYOR`  |
 | GitLab CI | `:GITLAB-CI` |
-
-### Lisp API
-
-#### **Package** CI-UTILS
-
-**Function** PLATFORM ()  
-Returns the keyword for the current platform (see table above).
-
-**Function** BUILD-DIR ()  
-Returns the directory that the repository was copied into.
-
-**Function** BRANCH ()  
-Returns the name of the branch the build is from.
-
-**Function** IS-PR ()  
-Returns whether the build is for a pull/merge request.
-
-**Function** LOAD-PROJECT-SYSTEMS (&KEY FORCE)  
-Loads the root project in each asd file in the build directory.
-`FORCE` is passed to `ASDF:LOAD-SYSTEM`.
-
-#### **Package** CI-UTILS/COVERALLS
-
-**Macro** WITH-COVERALLS (EXCLUDED &BODY BODY)  
-If the `:COVERALLS` feature is present, wraps the body in `CL-COVERALLS:WITH-COVERALLS` with the excluded paths passed.
-Otherwise, it loads the root systems for the project (like as is done in cl-coveralls) followed by the body.
-
-**Function** COVERAGE-EXCLUDED ()  
-Gets the contents of the `COVERAGE-EXCLUDED` environmental variable as a list of strings.

@@ -14,7 +14,7 @@ env:
     - PATH=~/.roswell/bin:$PATH
     - ROSWELL_INSTALL_DIR=$HOME/.roswell
   matrix:
-    - LISP=sbcl-bin
+    - LISP=sbcl-bin DOCS=true
       COVERALLS_TEST=:noncoveralls-tests
     - LISP=sbcl-bin COVERALLS=true COVERAGE_EXCLUDE=t:test-launcher.txt
       COVERALLS_TEST=:coveralls-tests
@@ -29,9 +29,6 @@ env:
     - LISP=cmucl
       COVERALLS_TEST=:noncoveralls-tests
 
-matrix:
-  fast_finish: true
-
 cache:
   directories:
     - $HOME/.roswell
@@ -39,6 +36,23 @@ cache:
 
 install:
   - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh
+  - ros install neil-lindquist/doc-site-generator
 
 script:
   - roswell/run-fiveam.ros -l ci-utils/test :travis-tests $COVERALLS_TEST :base-tests
+
+
+before_deploy:
+  - copy-site-base docs docs-bin
+  - echo "The documentation page for the CI-Utils Common Lisp library." | make-gh-page README.md docs-bin/index.md
+  - roswell/generate-API-docs.ros
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN
+  keep_history: true
+  local_dir: docs-bin
+  on:
+    branch: master
+    condition: $DOCS = true

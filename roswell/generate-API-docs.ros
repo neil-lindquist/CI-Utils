@@ -1,0 +1,26 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+
+(ql:quickload '(:ci-utils/coveralls :doc-site-generator))
+(use-package :doc-gen)
+
+(defun main (&rest argv)
+  (declare (ignore argv))
+
+  (with-open-file (stream "docs-bin/API.md"
+                   :direction :output
+                   :external-format :utf-8)
+
+    (format stream "---~%~
+                    layout: page~%~
+                    title: API Documentation~%~
+                    meta-description: The API Documentation for the CI-Utils~
+                    Common Lisp library.~%~
+                    ---~%~%~%")
+
+
+    (print-package-documentation 'ci-utils stream)
+    (print-package-documentation 'ci-utils/coveralls stream)))
