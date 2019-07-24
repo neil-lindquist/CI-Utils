@@ -15,7 +15,7 @@ If your are not using Roswell, copy the contents of this repository somewhere th
 
 ### Usage
 
-See [neil-lindquist.github.io/CI-Utils/API](neil-lindquist.github.io/CI-Utils/API) for documentation of the API.
+See [neil-lindquist.github.io/CI-Utils/API](https://neil-lindquist.github.io/CI-Utils/API) for documentation of the API.
 
 #### run-fiveam
 
