@@ -1,7 +1,7 @@
 
 (defsystem "ci-utils"
   :description "A set of tools for using CI platforms"
-  :version "0.0.0"
+  :version "1.0.0"
   :author "Neil Lindquist <NeilLindquist5@gmail.com>"
   :license "MIT"
   :depends-on ("ci-utils-features")
@@ -12,7 +12,7 @@
 
 (defsystem "ci-utils/coveralls"
   :description "A set of tools for using CI platforms"
-  :version "0.0.0"
+  :version "1.0.0"
   :author "Neil Lindquist <NeilLindquist5@gmail.com>"
   :license "MIT"
   :defsystem-depends-on ("ci-utils-features")
