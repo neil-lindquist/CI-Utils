@@ -45,7 +45,7 @@ script:
 before_deploy:
   - copy-site-base docs docs-bin
   - echo "The documentation page for the CI-Utils Common Lisp library." | make-gh-page README.md docs-bin/index.md
-  - roswell/generate-API-docs.ros
+  - ./generate-API-docs.ros
 
 deploy:
   provider: pages
