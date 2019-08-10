@@ -1,0 +1,78 @@
+# based on https://github.com/realark/cl-sample-game/blob/master/azure-pipelines.yaml
+
+trigger:
+- master
+
+variables:
+  SBCL_VERSION: sbcl-1.5.5
+  SBCL_OPTIONS: ""
+
+jobs:
+  - job: 'Test'
+    strategy:
+      matrix:
+        mac:
+          target: 'x86_64-apple-darwin'
+          imageName: 'macos-10.13'
+        win:
+          target: 'x86_64-windows-10'
+          imageName: 'vs2017-win2016'
+    pool:
+      vmImage: $(imageName)
+    steps:
+      - script: |
+            curl -L https://sourceforge.net/projects/sbcl/files/sbcl/1.2.11/sbcl-1.2.11-x86-64-darwin-binary.tar.bz2/download?use_mirror=astuteinternet > darwin.tar.bz2
+            bzip2 -cd darwin.tar.bz2 | tar xvf -
+            cd sbcl-1.2.11-x86-64-darwin
+            sh install.sh
+        displayName: Mac Install SBCL
+        condition: eq( variables['Agent.OS'], 'Darwin' )
+      - script: |
+            curl -L https://sourceforge.net/projects/sbcl/files/sbcl/1.4.14/sbcl-1.4.14-x86-64-windows-binary.msi/download?use_mirror=pilotfiber > windows.msi
+            msiexec.exe /qn /i windows.msi
+            @echo ##vso[task.prependpath]C:\Program Files\sbcl\bin\
+            @echo ##vso[task.setvariable variable=sbcl_home]C:\Program Files\sbcl\lib\sbcl
+        displayName: Windows Install SBCL
+        condition: eq( variables['Agent.OS'], 'Windows_NT' )
+      - script: |
+            cd $HOME
+            git clone https://github.com/sbcl/sbcl
+            cd sbcl
+            git checkout $(SBCL_VERSION)
+            sh make.sh --prefix=$SBCL_HOME $(SBCL_OPTIONS)
+            sudo sh install.sh
+        displayName: Build Special SBCL
+        condition: ne( variables['Agent.OS'], 'Windows_NT' )
+      - bash: |
+            git clone https://github.com/sbcl/sbcl
+            cd sbcl
+            git checkout $(SBCL_VERSION)
+            export PATH="/c/Program Files/Steel Bank Common Lisp/1.4.14:$PATH"
+            export SBCL_HOME="/c/Program Files/Steel Bank Common Lisp/1.4.14"
+            sh make.sh $(SBCL_OPTIONS)
+            export SBCL_HOME=""
+            sh install.sh
+        displayName: Windows Build Special SBCL
+        condition: eq( variables['Agent.OS'], 'Windows_NT' )
+      - bash: |
+            cd $HOME
+            curl -O http://beta.quicklisp.org/quicklisp.lisp
+            sbcl --load quicklisp.lisp --eval '(quicklisp-quickstart:install)' --eval '(ql-util:without-prompting (quicklisp:add-to-init-file))' --eval '(quit)'
+        displayName: Install Quicklisp
+      - bash: |
+            mkdir -p $HOME/quicklisp/local-projects/
+            ln -s '$(Build.SourcesDirectory)' $HOME/quicklisp/local-projects/cl-sample-game
+        displayName: Non-Windows Link Local Project
+        condition: ne( variables['Agent.OS'], 'Windows_NT' )
+      - bash: |
+            echo "make folder"
+            mkdir -p "$HOME/quicklisp/local-projects/"
+            echo "do linking"
+            export WIN_HOME=`echo $HOME | sed -r 's#^/c#C:#g'`
+            cmd <<< "mklink /D \"${WIN_HOME//\//\\}\\quicklisp\\local-projects\cl-sample-game\" \"$(Build.SourcesDirectory)\""
+        displayName: Windows Link Local Project
+        condition: eq( variables['Agent.OS'], 'Windows_NT' )
+
+      - script: |
+            sbcl --script roswell/run-fiveam.ros -l ci-utils/test :azure-pipelines-tests :base-tests :noncoveralls-tests
+        displayName: Run tests

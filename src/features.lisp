@@ -8,6 +8,7 @@
              ((uiop:getenvp "APPVEYOR") :appveyor)
              ((uiop:getenvp "GITLAB_CI") :gitlab-ci)
              ((uiop:getenvp "BITBUCKET_BUILD_NUMBER") :bitbucket-pipelines)
+             ((string-equal "true" (uiop:getenv "TF_BUILD")) :azure-pipelines)
              (t :unknown-ci))
            *features*))
 

@@ -46,6 +46,13 @@
   (is (eq (not (null (uiop:getenvp "BITBUCKET_PR_ID")))
           (pull-request-p))))
 
+(test :azure-pipelines-tests
+  (is-true (member :azure-pipelines *features*))
+  (is-false (member :circleci *features*))
+  (is (eq :azure-pipelines (platform)))
+  (is (string= (uiop:getenv "BUILD_SOURSEBRANCHNAME") (branch)))
+  (is (eq (not (null (uiop:getenvp "SYSTEM_PULLREQUEST_PULLREQUESTID")))
+          (pull-request-p))))
 
 (test :base-tests
   (is-true (member :ci *features*))
