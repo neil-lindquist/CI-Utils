@@ -32,7 +32,7 @@
   #+appveyor (string-upcase (uiop:getenv "APPVEYOR_BUILD_FOLDER") :end 1)
   #+gitlab-ci (uiop:getenv "CI_PROJECT_DIR")
   #+bitbucket-pipelines (uiop:getenv "BITBUCKET_CLONE_DIR")
-  #+azure-pipelines (uiop:getenv "AGENT_BUILDDIRECTORY")
+  #+azure-pipelines (uiop:getenv "BUILD_SOURCESDIRECTORY")
   #+(or (not ci) unknown-ci) (uiop:getcwd))
 
 
@@ -44,7 +44,7 @@
   #+appveyor (not (null (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")))
   #+gitlab-ci (not (null (uiop:getenvp "CI_MERGE_REQUEST_ID")))
   #+bitbucket-pipelines (not (null (uiop:getenvp "BITBUCKET_PR_ID")))
-  #+azure-pipelines (not (null (uiop:getenvp "SYSTEM_PULLREQUEST.PULLREQUESTID")))
+  #+azure-pipelines (not (null (uiop:getenvp "SYSTEM_PULLREQUEST_PULLREQUESTID")))
   #+(or (not ci) unknown-ci) nil)
 
 (defun branch ()

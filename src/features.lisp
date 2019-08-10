@@ -1,6 +1,7 @@
 ;;; Push the new features
 
-(when (uiop:getenvp "CI")
+(when (or (uiop:getenvp "CI")
+          (uiop:getenv "TF_BUILD")) ;special case for azure pipelines
   (pushnew :ci *features*)
   (pushnew (cond
              ((uiop:getenvp "TRAVIS") :travis-ci)
