@@ -1,0 +1,12 @@
+# bitbucket's default image doesn't contain the needed tools for the roswell installation
+image: circleci/buildpack-deps:stretch-curl
+
+pipelines:
+  default:
+    - step:
+        name: Build and test
+        script:
+          - PATH=~/.roswell/bin:$PATH
+          - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | bash
+          - echo "(:tree \"$BITBUCKET_CLONE_DIR/\")" > "$HOME/.config/common-lisp/source-registry.conf.d/ci.conf"
+          - roswell/run-fiveam.ros -l ci-utils/test :bitbucket-pipelines-tests :noncoveralls-tests :base-tests

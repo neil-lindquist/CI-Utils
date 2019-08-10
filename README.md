@@ -3,7 +3,8 @@
 [![Travis Build Status](https://img.shields.io/travis/neil-lindquist/ci-utils.svg?logo=Travis)](https://travis-ci.org/neil-lindquist/CI-Utils)
 [![CircleCI Build Status](https://img.shields.io/circleci/build/github/neil-lindquist/CI-Utils.svg?logo=CircleCI)](https://circleci.com/gh/neil-lindquist/CI-Utils)
 [![Appveyor Build status](https://ci.appveyor.com/api/projects/status/mm1swvm28hpp2oc5/branch/master?svg=true)](https://ci.appveyor.com/project/neil-lindquist/ci-utils/branch/master)
-[![Gitlab pipeline status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils.svg?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)
+[![Gitlab CI status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils.svg?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)
+[![Bitbucket pipelines status](https://img.shields.io/bitbucket/pipelines/nlindqu1/ci-utils?logo=bitbucket)](https://bitbucket.org/nlindqu1/ci-utils/addon/pipelines/home#!/)
 
 CI-Utils is a set of utilities for working on continuous integration platforms, including a run script for the Fiveam test library.
 
@@ -44,3 +45,4 @@ Finally, if the `COVERALLS` environmental variable is set, then `:COVERALLS` is 
 | Circle CI | `:CIRCLE-CI` |
 | Appveyor  | `:APPVEYOR`  |
 | GitLab CI | `:GITLAB-CI` |
+| Bitbucket Pipelines | `:bitbucket-pipelines` |

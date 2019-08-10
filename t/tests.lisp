@@ -38,6 +38,14 @@
   (is (eq (not (null (uiop:getenvp "CI_MERGE_REQUEST_ID")))
           (pull-request-p))))
 
+(test :bitbucket-pipelines-tests
+  (is-true (member :bitbucket-pipelines *features*))
+  (is-false (member :circleci *features*))
+  (is (eq :bitbucket-pipelines (platform)))
+  (is (string= (uiop:getenv "BITBUCKET_BRANCH") (branch)))
+  (is (eq (not (null (uiop:getenvp "BITBUCKET_PR_ID")))
+          (pull-request-p))))
+
 
 (test :base-tests
   (is-true (member :ci *features*))

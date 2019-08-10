@@ -19,6 +19,7 @@
   #+circleci :circleci
   #+appveyor :appveyor
   #+gitlab-ci :gitlab-ci
+  #+bitbucket-pipelines :bitbucket-pipelines
   #+unknown-ci :unknown-ci
   #-ci nil)
 
@@ -29,6 +30,7 @@
   #+circleci (uiop:getenv "CIRCLE_WORKING_DIRECTORY")
   #+appveyor (string-upcase (uiop:getenv "APPVEYOR_BUILD_FOLDER") :end 1)
   #+gitlab-ci (uiop:getenv "CI_PROJECT_DIR")
+  #+bitbucket-pipelines (uiop:getenv "BITBUCKET_CLONE_DIR")
   #+(or (not ci) unknown-ci) (uiop:getcwd))
 
 
@@ -39,6 +41,7 @@
   #+circleci (not (null (uiop:getenvp "CIRCLE_PULL_REQUESTS")))
   #+appveyor (not (null (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")))
   #+gitlab-ci (not (null (uiop:getenvp "CI_MERGE_REQUEST_ID")))
+  #+bitbucket-pipelines (not (null (uiop:getenvp "BITBUCKET_PR_ID")))
   #+(or (not ci) unknown-ci) nil)
 
 (defun branch ()
@@ -48,4 +51,6 @@
   #+circleci (uiop:getenvp "CIRCLE_BRANCH")
   #+appveyor (uiop:getenvp "APPVEYOR_REPO_BRANCH")
   #+gitlab-ci (uiop:getenvp "CI_COMMIT_REF_NAME")
+  #+bitbucket-pipelines (or (uiop:getenvp "BITBUCKET_BRANCH")
+                            (uiop:getenvp "BITBUCKET_TAG"))
   #+(or (not ci) unknown-ci) nil)
