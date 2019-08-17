@@ -10,10 +10,9 @@
 CI-Utils is a set of utilities for working on continuous integration platforms, including a run script for the Fiveam test library.
 
 ### Installation
-If you are using Roswell, run `ros install neil-lindquist/ci-utils`.
+If you are using Roswell, run `ros install ci-utils`.
 This will download the code where ASDF can find it and place `run-fiveam` in the roswell bin directory.
-
-If your are not using Roswell, copy the contents of this repository somewhere that ASDF can find it (such as `~/quicklisp/local-projects/ci-utils` for Quicklisp users).
+If you are not using Roswell, either run `(ql:quickload :ci-utils)` or manually download the contents of this repository somewhere that ASDF can find it.
 
 ### Usage
 
