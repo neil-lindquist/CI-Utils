@@ -28,7 +28,7 @@ Options
 --help|-h                     - prints this help message
 --quickload|-l <sytem>        - lists an additional system to load
 --coverage-exclude|-e <file>  - lists a path to excluded from the coverage
-                                measurement")
+                                measurement~%")
   (uiop:quit 2))
 
 

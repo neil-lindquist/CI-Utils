@@ -1,0 +1,33 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+
+;cmucl crashes with silent on
+(ql:quickload '(:ci-utils)
+              :silent (not (member :cmu *features*)))
+
+(defpackage :ros.script.asdf-register-project
+  (:use :cl))
+(in-package :ros.script.asdf-register-project)
+
+
+(defun show-help ()
+  (format t "~
+Usage: asdf-register-project [options]
+Registers the current project with ASDF.  Unless running on a known CI system,
+the current working directory will be used as the package directory.
+Options
+--help|-h                     - prints this help message")
+  (uiop:quit 2))
+
+
+(defun main (&rest argv)
+  (when (< 0 (length argv))
+    (show-help))
+  (with-open-file (stream (asdf:user-source-registry :direction :output)
+                          :direction :output
+                          :if-exists :append
+                          :if-does-not-exist :create)
+    (format stream "(:tree ~S)" (truename (ci-utils:build-dir)))))
