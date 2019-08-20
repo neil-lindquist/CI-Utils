@@ -39,7 +39,7 @@ install:
   - ros install neil-lindquist/doc-site-generator
 
 script:
-  - roswell/run-fiveam.ros -l $(echo ${TRAVIS_REPO_SLUG}| awk -F "/" '{print $1}')/test :travis-tests $COVERALLS_TEST :base-tests
+  - roswell/run-fiveam.ros -l $(echo ${TRAVIS_REPO_SLUG}| awk -F "/" '{print $2}')/test :travis-tests $COVERALLS_TEST :base-tests
 
 
 before_deploy:
