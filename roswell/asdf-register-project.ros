@@ -28,10 +28,9 @@ Options
     (show-help))
   (let ((source-registry (asdf:user-source-registry :direction :output)))
     (ensure-directories-exist source-registry)
-    (format t "source-reg exists: ~S~%" (probe-file source-registry))
-    (format t "reg parent exists: ~S~%" (probe-file (uiop:pathname-parent-directory-pathname source-registry)))
+    (probe-file (uiop:pathname-parent-directory-pathname source-registry))
     (with-open-file (stream source-registry
                             :direction :output
                             :if-exists :append
                             :if-does-not-exist :create)
-      (format stream "(:tree ~S)" (truename (ci-utils:build-dir))))))
+      (format stream "(:tree ~S)" (namestring (truename (ci-utils:build-dir)))))))
