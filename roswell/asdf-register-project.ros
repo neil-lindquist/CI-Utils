@@ -26,11 +26,12 @@ Options
 (defun main (&rest argv)
   (when (< 0 (length argv))
     (show-help))
-  (let ((source-registry (asdf:user-source-registry :direction :output)))
+  (let* ((source-registry-dir (asdf:user-source-registry-directory :direction :output))
+         (source-registry (merge-pathnames (concatenate 'string "ci-utils--build-dir.conf")
+                                           source-registry-dir)))
     (ensure-directories-exist source-registry)
-    (probe-file (uiop:pathname-parent-directory-pathname source-registry))
     (with-open-file (stream source-registry
                             :direction :output
-                            :if-exists :append
+                            :if-exists :error
                             :if-does-not-exist :create)
-      (format stream "(:tree ~S)" (namestring (truename (ci-utils:build-dir)))))))
+      (format stream "(:tree ~S)" (truename (ci-utils:build-dir))))))
