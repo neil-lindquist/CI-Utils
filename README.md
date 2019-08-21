@@ -9,6 +9,8 @@
 
 CI-Utils is a set of utilities for working on continuous integration platforms, including a run script for the Fiveam test library.
 
+For examples of configuring CI platforms to test Common Lisp code, see the config-examples directory.
+
 ### Installation
 If you are using Roswell, run `ros install ci-utils`.
 This will download the code where ASDF can find it and place `run-fiveam` in the roswell bin directory.

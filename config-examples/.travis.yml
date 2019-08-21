@@ -1,0 +1,67 @@
+language: common-lisp
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - libc6-i386 # needed for a couple implementations
+      - openjdk-7-jre # needed for abcl
+
+# Runs each lisp implementation on each of the listed OS
+os:
+  - linux
+#  - osx # OSX has a long setup on travis, so just run select implementations on OSX
+
+env:
+  global:
+    - PATH=~/.roswell/bin:$PATH
+    - ROSWELL_INSTALL_DIR=$HOME/.roswell
+#    - COVERAGE_EXCLUDE=t  # for prove or rove
+  matrix:
+    - LISP=sbcl-bin COVERALLS=true
+    - LISP=abcl
+    - LISP=ecl
+    - LISP=alisp
+    - LISP=ccl-bin
+    - LISP=cmucl
+
+# Additional OS/Lisp combinations can be added to those generated above
+matrix:
+  include:
+    - os: osx
+      LISP: sbcl-bin
+    - os: osx
+      LISP: ccl-bin
+
+# Some jobs can be marked as allowed to fail
+# Note that this should only be used if there is no interest for the library to work on that system
+#matrix:
+#  allow_failures:
+#    - env: LISP=abcl
+#    - env: LISP=ecl
+#    - env: LISP=cmucl
+#    - env: LISP=alisp
+#      os: osx
+
+matrix:
+  fast_finish: true
+
+cache:
+  directories:
+    - $HOME/.roswell
+    - $HOME/.config/common-lisp
+
+install:
+  - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh
+  - ros install ci-utils #for run-fiveam
+#  - ros install prove #for run-prove
+#  - ros install rove #for [run-] rove
+
+  # If asdf 3.16 or higher is needed uncomment the following lines
+  #- mkdir -p ~/common-lisp
+  #- if [ "$LISP" == "ccl-bin" ]; then git clone https://gitlab.common-lisp.net/asdf/asdf.git ~/common-lisp; fi
+
+script:
+  - run-fiveam -e t -l foo/test :foo-tests
+  #- run-prove foo.asd
+  #- rove foo.asd
