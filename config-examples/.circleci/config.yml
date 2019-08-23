@@ -1,0 +1,59 @@
+version: 2
+
+# Note that CircleCI's support for multiple jobs with the same steps is nonexistant.
+# So, each implementation needs an entry in the jobs group, and to be listed in the workflows section at the bottom.
+
+jobs:
+  sbcl:
+    docker:
+      - image: circleci/buildpack-deps:stretch-curl
+    environment:
+      LISP: sbcl-bin
+    steps:
+      - checkout
+      # This is the only way CircleCI allows setting environmental variables accross steps
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=$HOME/.roswell/bin:$PATH" >> $BASH_ENV
+
+      - run: echo $LISP
+      - run: curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | bash
+      - run: ros install neil-lindquist/ci-utils # for run-fiveam
+      #- run: ros install prove # for run-prove
+      #- run: ros install rove # for [run-] rove
+
+      - run: run-fiveam -e t -l foo/test :foo-tests
+      #- run: run-prove foo.asd
+      #- run: rove foo.asd
+  ccl:
+    docker:
+      - image: circleci/buildpack-deps:stretch-curl
+    environment:
+      LISP: ccl-bin
+    steps:
+      - checkout
+      # This is the only way CircleCI allows setting environmental variables accross steps
+      - run:
+          name: Setup Environment Variables
+          command: |
+            echo "export PATH=$HOME/.roswell/bin:$PATH" >> $BASH_ENV
+
+      - run: echo $LISP
+      - run: curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | bash
+      - run: ros install neil-lindquist/ci-utils # for run-fiveam
+      #- run: ros install prove # for run-prove
+      #- run: ros install rove # for [run-] rove
+
+      - run: run-fiveam -e t -l foo/test :foo-tests
+      #- run: run-prove foo.asd
+      #- run: rove foo.asd
+
+
+
+workflows:
+  version: 2
+  run_tests:
+    jobs:
+      - sbcl
+      - ccl

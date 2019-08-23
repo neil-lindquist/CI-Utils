@@ -1,0 +1,25 @@
+.test:
+  before_script:
+    - PATH=$HOME/.roswell/bin:$PATH
+    - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | bash
+    - ros install neil-lindquist/ci-utils # for run-fiveam and asdf-register-project
+    #- ros install prove # for run-prove
+    #- ros install rove # for [run-] rove
+    - asdf-register-project
+
+  script:
+    - run-fiveam -l foo/test :foo-tests
+    #- run-prove foo.asd
+    #- rove foo.asd
+
+
+test-sbcl:
+  extends: .test
+  variables:
+    LISP: sbcl-bin
+
+
+test-ccl:
+  extends: .test
+  variables:
+    LISP: ccl-bin
