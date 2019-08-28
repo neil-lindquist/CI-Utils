@@ -8,7 +8,7 @@
     - asdf-register-project
 
   script:
-    - run-fiveam -l foo/test :foo-tests
+    - run-fiveam -e t -l foo/test :foo-tests
     #- run-prove foo.asd
     #- rove foo.asd
 
