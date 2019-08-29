@@ -1,6 +1,5 @@
 # --- General options --- #
 
-url: http://neil-lindquist.github.io/CI-Utils
 baseurl: "/CI-Utils"
 
 # Name of website
