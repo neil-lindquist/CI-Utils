@@ -29,13 +29,12 @@ env:
 matrix:
   include:
     - os: osx
-      LISP: sbcl-bin
+      env: LISP=sbcl-bin
     - os: osx
-      LISP: ccl-bin
+      env: LISP=ccl-bin
 
 # Some jobs can be marked as allowed to fail
 # Note that this should only be used if there is no interest for the library to work on that system
-#matrix:
 #  allow_failures:
 #    - env: LISP=abcl
 #    - env: LISP=ecl
@@ -43,7 +42,6 @@ matrix:
 #    - env: LISP=alisp
 #      os: osx
 
-matrix:
   fast_finish: true
 
 cache:

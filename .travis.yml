@@ -29,6 +29,13 @@ env:
     - LISP=cmucl
       COVERALLS_TEST=:noncoveralls-tests
 
+matrix:
+  include:
+    - os: osx
+      env: LISP=sbcl-bin
+    - os: osx
+      env: LISP=ccl-bin
+
 cache:
   directories:
     - $HOME/.roswell
