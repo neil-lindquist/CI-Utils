@@ -5,7 +5,7 @@ exec ros -Q -- $0 "$@"
 |#
 
 ;cmucl crashes with silent on
-(ql:quickload '(:ci-utils :ci-utils/coveralls :fiveam :iterate)
+(ql:quickload '(:ci-utils/coveralls :fiveam :iterate)
               :silent (not (member :cmu *features*)))
 
 (defpackage :ros.script.run-fiveam
@@ -41,6 +41,8 @@ Options
 (defun main (&rest argv)
   (when (> 1 (length argv))
     (show-help))
+  (setf fiveam:*on-error* :backtrace
+        fiveam:*on-failure* :backtrace)
   (iter (generate arg-list in argv)
         (for arg = (next arg-list))
     (cond
