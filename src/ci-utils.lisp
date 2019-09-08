@@ -35,6 +35,16 @@
   #+azure-pipelines (uiop:getenv "BUILD_SOURCESDIRECTORY")
   #+(or (not ci) unknown-ci) (uiop:getcwd))
 
+(defun build-id ()
+  "Returns the build id for the given platform. `NIL` is returned on unsupported
+   platforms."
+  #+travis-ci (uiop:getenv "TRAVIS_JOB_ID")
+  #+circleci (uiop:getenv "CIRCLE_BUILD_NUM")
+  #+appveyor (uiop:getenv "APPVEYOR_JOB_ID")
+  #+gitlab-ci (uiop:getenv "CI_BUILD_ID")
+  #+bitbucket-pipelines (uiop:getenv "BITBUCKET_BUILD_NUMBER")
+  #+azure-pipelines (uiop:getenv "BUILD_BUILDID")
+  #+(or (not ci) unknown-ci) nil)
 
 (defun pull-request-p ()
   "Returns whether the build is for a pull/merge request.  Unknown and non-ci
@@ -59,4 +69,15 @@
   #+bitbucket-pipelines (or (uiop:getenvp "BITBUCKET_BRANCH")
                             (uiop:getenvp "BITBUCKET_TAG"))
   #+azure-pipelines (uiop:getenvp "BUILD_SOURCEBRANCHNAME")
+  #+(or (not ci) unknown-ci) nil)
+
+(defun commit-id ()
+  "Returns the ID of the current commit.  For git projects, this is the commit's
+   SHA. `NIL` is returned on unsupported platforms."
+  #+travis-ci (uiop:getenv "TRAVIS-COMMIT")
+  #+circleci (uiop:getenv "CIRCLE-SHA1")
+  #+appveyor (uiop:getenv "APPVEYOR_REPO_COMMIT")
+  #+gitlab-ci (uiop:getenv "CI_COMMIT_SHA")
+  #+bitbucket-pipelines (uiop:getenv "BITBUCKET_COMMIT")
+  #+azure-pipelines (uiop:getenv "BUILD_SOURCEVERSION")
   #+(or (not ci) unknown-ci) nil)
