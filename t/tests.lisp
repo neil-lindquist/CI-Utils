@@ -11,7 +11,7 @@
   (is-false (member :circleci *features*))
   (is (eq :travis-ci (platform)))
   (is (string= (uiop:getenv "TRAVIS_BRANCH") (branch)))
-  (is (eq (not (null (uiop:getenvp "TRAVIS_PULL_REQUEST_BRANCH")))
+  (is (eq (uiop:getenvp "TRAVIS_PULL_REQUEST_BRANCH")
           (pull-request-p))))
 
 (test :circleci-tests
@@ -19,7 +19,7 @@
   (is-false (member :travis-ci *features*))
   (is (eq :circleci (platform)))
   (is (string= (uiop:getenv "CIRCLE_BRANCH") (branch)))
-  (is (eq (not (null (uiop:getenvp "CIRCLE_PULL_REQUEST")))
+  (is (eq (uiop:getenvp "CIRCLE_PULL_REQUEST")
           (pull-request-p))))
 
 (test :appveyor-tests
@@ -27,7 +27,7 @@
   (is-false (member :circleci *features*))
   (is (eq :appveyor (platform)))
   (is (string= (uiop:getenv "APPVEYOR_REPO_BRANCH") (branch)))
-  (is (eq (not (null (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")))
+  (is (eq (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")
           (pull-request-p))))
 
 (test :gitlab-ci-tests
@@ -35,7 +35,7 @@
   (is-false (member :circleci *features*))
   (is (eq :gitlab-ci (platform)))
   (is (string= (uiop:getenv "CI_COMMIT_REF_NAME") (branch)))
-  (is (eq (not (null (uiop:getenvp "CI_MERGE_REQUEST_ID")))
+  (is (eq (uiop:getenvp "CI_MERGE_REQUEST_ID")
           (pull-request-p))))
 
 (test :bitbucket-pipelines-tests
@@ -43,15 +43,15 @@
   (is-false (member :circleci *features*))
   (is (eq :bitbucket-pipelines (platform)))
   (is (string= (uiop:getenv "BITBUCKET_BRANCH") (branch)))
-  (is (eq (not (null (uiop:getenvp "BITBUCKET_PR_ID")))
+  (is (eq (uiop:getenvp "BITBUCKET_PR_ID")
           (pull-request-p))))
 
 (test :azure-pipelines-tests
   (is-true (member :azure-pipelines *features*))
   (is-false (member :circleci *features*))
   (is (eq :azure-pipelines (platform)))
-  (is (string= (uiop:getenv "BUILD_SOURSEBRANCHNAME") (branch)))
-  (is (eq (not (null (uiop:getenvp "SYSTEM_PULLREQUEST_PULLREQUESTID")))
+  (is (string= (uiop:getenv "BUILD_SOURCEBRANCHNAME") (branch)))
+  (is (eq (uiop:getenvp "SYSTEM_PULLREQUEST_PULLREQUESTID")
           (pull-request-p))))
 
 (test :base-tests

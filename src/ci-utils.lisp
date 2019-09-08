@@ -38,13 +38,15 @@
 
 (defun pull-request-p ()
   "Returns whether the build is for a pull/merge request.  Unknown and non-ci
-   platforms are considered to not be pull requests."
-  #+travis-ci (not (string= "false" (uiop:getenv "TRAVIS_PULL_REQUEST")))
-  #+circleci (not (null (uiop:getenvp "CIRCLE_PULL_REQUESTS")))
-  #+appveyor (not (null (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")))
-  #+gitlab-ci (not (null (uiop:getenvp "CI_MERGE_REQUEST_ID")))
-  #+bitbucket-pipelines (not (null (uiop:getenvp "BITBUCKET_PR_ID")))
-  #+azure-pipelines (not (null (uiop:getenvp "SYSTEM_PULLREQUEST_PULLREQUESTID")))
+   platforms are considered to not be pull requests.  A string containing the
+   pull request number is returned for pull requests"
+  #+travis-ci (unless (string= "false" (uiop:getenv "TRAVIS_PULL_REQUEST"))
+                (uiop:getenvp "TRAVIS_PULL_REQUEST"))
+  #+circleci (uiop:getenvp "CIRCLE_PULL_REQUESTS")
+  #+appveyor (uiop:getenvp "APPVEYOR_PULL_REQUEST_NUMBER")
+  #+gitlab-ci (uiop:getenvp "CI_MERGE_REQUEST_ID")
+  #+bitbucket-pipelines (uiop:getenvp "BITBUCKET_PR_ID")
+  #+azure-pipelines (uiop:getenvp "SYSTEM_PULLREQUEST_PULLREQUESTID")
   #+(or (not ci) unknown-ci) nil)
 
 (defun branch ()
@@ -56,5 +58,5 @@
   #+gitlab-ci (uiop:getenvp "CI_COMMIT_REF_NAME")
   #+bitbucket-pipelines (or (uiop:getenvp "BITBUCKET_BRANCH")
                             (uiop:getenvp "BITBUCKET_TAG"))
-  #+azure-pipelines (uiop:getenvp "BUILD_SOURSEBRANCHNAME")
+  #+azure-pipelines (uiop:getenvp "BUILD_SOURCEBRANCHNAME")
   #+(or (not ci) unknown-ci) nil)
