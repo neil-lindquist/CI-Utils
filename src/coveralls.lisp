@@ -30,3 +30,18 @@
   (split-sequence:split-sequence #\:
                                  (or (uiop:getenvp "COVERAGE_EXCLUDE") "")
                                  :remove-empty-subseqs t))
+
+
+;;; patches for cl-coveralls to support other platforms
+#+coveralls
+(progn
+  (defun cl-coveralls.service:service-name ()
+    (ci-utils:platform))
+  (defun cl-coveralls.service:service-job-id ()
+    (ci-utils:build-id))
+  (defun cl-coveralls.service:project-dir ()
+    (truename (ci-utils:build-dir)))
+  (defun cl-coveralls.service:commit-sha ()
+    (ci-utils:commit-id))
+  (defun cl-coveralls.service:pull-request-num ()
+    (ci-utils:pull-request-p)))
