@@ -5,7 +5,7 @@ addons:
   apt:
     packages:
       - libc6-i386 # needed for a couple implementations
-      - openjdk-7-jre # needed for abcl
+      - default-jre # needed for abcl
 
 # Runs each lisp implementation on each of the listed OS
 os:
