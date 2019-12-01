@@ -49,3 +49,4 @@ Finally, if the `COVERALLS` environmental variable is set, then `:COVERALLS` is 
 | GitLab CI | `:GITLAB-CI` |
 | Bitbucket Pipelines | `:BITBUCKET-PIPELINES` |
 |   Azure Pipelines   |   `:AZURE-PIPELINES`   |
+|    Github Actions   |    `:GITHUB-ACTIONS`   |

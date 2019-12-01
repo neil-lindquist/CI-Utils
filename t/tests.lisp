@@ -54,6 +54,14 @@
   (is (eq (uiop:getenvp "SYSTEM_PULLREQUEST_PULLREQUESTID")
           (pull-request-p))))
 
+(test :github-actions-tests
+  (is-true (member :github-actions *features*))
+  (is-false (member :circleci *features*))
+  (is (eq :github-actions  (platform)))
+  (is (string= (subseq (uiop:getenv "GITHUB_REF") 11) (branch)))
+  (is (eq (string= "pull_request" (uiop:getenvp "GITHUB_EVENT_NAME"))
+          (pull-request-p))))
+
 (test :base-tests
   (is-true (member :ci *features*))
   (is-false (member :unknown-ci *features*))
