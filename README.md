@@ -36,7 +36,7 @@ See `run-fiveam --help` for more information.
 #### Platform Features
 
 CI-Utils adds a few values to `*FEATURES*` that describe the current platform.
-First, either `:CI` or `:NOT-CI` is added, depending on the `CI` environmental variable (set by the major CI platforms).
+First, `:CI` is added if the `CI` environmental variable is set or the system is otherwise recognized as a known CI platform.
 Known CI platforms have their name added (listed in the table below).
 If `CI` is set but the system is not a recognized CI platform, then `:UNKNOWN-CI` is added.
 Finally, if the `COVERALLS` environmental variable is set, then `:COVERALLS` is added.
