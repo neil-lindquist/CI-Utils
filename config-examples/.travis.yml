@@ -2,6 +2,10 @@ language: common-lisp
 sudo: false
 
 addons:
+  homebrew:
+    update: true
+    packages:
+    - roswell
   apt:
     packages:
       - libc6-i386 # needed for a couple implementations

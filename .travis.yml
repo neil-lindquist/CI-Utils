@@ -4,6 +4,10 @@ sudo: false
 #from https://github.com/roswell/roswell/wiki/Travis-CI
 
 addons:
+  homebrew:
+    update: true
+    packages:
+    - roswell
   apt:
     packages:
       - libc6-i386
