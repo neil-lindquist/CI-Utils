@@ -1,4 +1,7 @@
-# Uses ideas from https://pastebin.com/u4gUKtYN
+### Example configuration for Azure Pipelines ###
+
+# Some of the configuration is copied from https://pastebin.com/u4gUKtYN
+
 
 trigger:
   branches:
@@ -36,6 +39,8 @@ jobs:
       vmImage: $(imageName)
 
     steps:
+      # Install roswell
+      # Windows needs a seperate installation, due to differences in available tools
       - bash: |
           PATH=$PATH:$HOME/.roswell/bin:/etc/roswell/bin
           echo "##vso[task.setvariable variable=PATH]$PATH" #Store the configured PATH for later steps
@@ -54,9 +59,11 @@ jobs:
 
       - bash: |
           set -e # Ensure Azure is informed of any failures
+          # install ci-utils and register the project's working directory with asdf
           ros install neil-lindquist/ci-utils #for register project and run-fiveam
           asdf-register-project
 
+          # Run the tests
           run-fiveam -e t -l foo/test :foo-tests
           #ros install prove
           #run-prove foo.asd

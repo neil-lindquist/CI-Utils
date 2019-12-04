@@ -1,3 +1,5 @@
+### Example configuration for Circle CI ###
+
 version: 2
 
 # Note that CircleCI's support for multiple jobs with the same steps is nonexistant.

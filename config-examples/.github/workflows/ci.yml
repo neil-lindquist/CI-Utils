@@ -1,5 +1,7 @@
+### Example configuration for Github Actions ###
 name: CI
 
+# Github Actions allows for running jobs on a wide variety of events
 on: [push, pull_request]
 
 jobs:
@@ -18,10 +20,10 @@ jobs:
           LISP: ${{ matrix.lisp }}
         run: |
           curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
-          ros install neil-lindquist/ci-utils
-#      - name: Install Test Framework
-#         run: ros install prove # for run-prove:
-#         run:  ros install rove # for [run-] rove
+      - name: Install Test Framework
+        run: ros install neil-lindquist/ci-utils
+#        run: ros install prove # for run-prove:
+#        run:  ros install rove # for [run-] rove
       - name: Run tests
         run: run-fiveam -e t -l foo/test :foo-tests
         #run: run-prove foo.asd

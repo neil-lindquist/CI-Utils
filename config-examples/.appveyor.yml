@@ -1,3 +1,5 @@
+### Example configuration for Appveyor ###
+
 image: Visual Studio 2017
 
 platform:
@@ -13,10 +15,11 @@ environment:
   PATH: c:\msys64\usr\bin;c:\msys64\mingw64\bin;C:\Users\appveyor\.roswell\bin\;%PATH%
   PLATFORM: x64
   matrix:
+    # While multiple implementations can be specified, not all implementations work on Windows/Appveyor
     - LISP: sbcl-bin
 
 # note that the roswell scripts have to explicitly be run through bash,
-# since windows doesn't support shabangs and powershell doesn't support exec
+# since cmd doesn't support shabangs and powershell doesn't support exec
 install:
   - bash -lc "curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh"
   - ros install neil-lindquist/ci-utils #for asdf-register-project and run-fiveam
@@ -28,6 +31,5 @@ build: off
 
 test_script:
   - bash -lc "run-fiveam -e t -l foo/test :foo-tests"
-  - bash -lc "run-fiveam -e t -l foo/test :foo-tests-error"
   #- bash -lc "run-prove foo.asd"
   #- bash -lc "rove foo.asd"

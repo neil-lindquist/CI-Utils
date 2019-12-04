@@ -1,3 +1,5 @@
+### Example configuration for Travis CI ###
+
 language: common-lisp
 sudo: false
 
@@ -14,7 +16,7 @@ addons:
 # Runs each lisp implementation on each of the listed OS
 os:
   - linux
-#  - osx # OSX has a long setup on travis, so just run select implementations on OSX
+#  - osx # OSX has a long setup on travis, so it's likely easier to just run select implementations on OSX
 
 env:
   global:
@@ -22,6 +24,7 @@ env:
     - ROSWELL_INSTALL_DIR=$HOME/.roswell
 #    - COVERAGE_EXCLUDE=t  # for prove or rove
   matrix:
+    # The implementation and whether coverage is send to coveralls are controlled with these environmental variables
     - LISP=sbcl-bin COVERALLS=true
     - LISP=abcl
     - LISP=ecl
@@ -59,7 +62,7 @@ install:
 #  - ros install prove #for run-prove
 #  - ros install rove #for [run-] rove
 
-  # If asdf 3.16 or higher is needed uncomment the following lines
+  # If asdf 3.16 or higher is needed, uncomment the following lines
   #- mkdir -p ~/common-lisp
   #- if [ "$LISP" == "ccl-bin" ]; then git clone https://gitlab.common-lisp.net/asdf/asdf.git ~/common-lisp; fi
 
