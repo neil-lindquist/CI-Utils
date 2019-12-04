@@ -6,6 +6,7 @@
 [![Gitlab CI status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils.svg?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)
 [![Bitbucket pipelines status](https://img.shields.io/bitbucket/pipelines/nlindqu1/ci-utils?logo=bitbucket)](https://bitbucket.org/nlindqu1/ci-utils/addon/pipelines/home#!/)
 [![Azure piplines status](https://img.shields.io/azure-devops/build/archer1mail/archer1mail/1?logo=Azure%20Pipelines)](https://dev.azure.com/archer1mail/archer1mail/_build?definitionId=1&_a=summary)
+[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fneil-lindquist%2Fci-utils%2Fbadge&style=flat&label=build)](https://actions-badge.atrox.dev/neil-lindquist/ci-utils/goto)
 
 CI-Utils is a set of utilities for working on continuous integration platforms, including a run script for the Fiveam test library.
 
