@@ -1,16 +1,22 @@
 ## CI-Utils
 
-[![Travis Build Status](https://img.shields.io/travis/neil-lindquist/ci-utils.svg?logo=Travis)](https://travis-ci.org/neil-lindquist/CI-Utils)
-[![CircleCI Build Status](https://img.shields.io/circleci/build/github/neil-lindquist/CI-Utils.svg?logo=CircleCI)](https://circleci.com/gh/neil-lindquist/CI-Utils)
-[![Appveyor Build status](https://ci.appveyor.com/api/projects/status/mm1swvm28hpp2oc5/branch/master?svg=true)](https://ci.appveyor.com/project/neil-lindquist/ci-utils/branch/master)
-[![Gitlab CI status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils.svg?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)
+[![Travis Status](https://img.shields.io/travis/neil-lindquist/ci-utils.svg?logo=Travis)](https://travis-ci.org/neil-lindquist/CI-Utils)
+[![CircleCI Status](https://img.shields.io/circleci/build/github/neil-lindquist/CI-Utils.svg?logo=CircleCI)](https://circleci.com/gh/neil-lindquist/CI-Utils)
+[![Appveyor Status](https://ci.appveyor.com/api/projects/status/mm1swvm28hpp2oc5/branch/master?svg=true)](https://ci.appveyor.com/project/neil-lindquist/ci-utils/branch/master)
+[![Gitlab CI Status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils.svg?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)
 [![Bitbucket pipelines status](https://img.shields.io/bitbucket/pipelines/nlindqu1/ci-utils?logo=bitbucket)](https://bitbucket.org/nlindqu1/ci-utils/addon/pipelines/home#!/)
-[![Azure piplines status](https://img.shields.io/azure-devops/build/archer1mail/archer1mail/1?logo=Azure%20Pipelines)](https://dev.azure.com/archer1mail/archer1mail/_build?definitionId=1&_a=summary)
-[![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fneil-lindquist%2Fci-utils%2Fbadge&style=flat&label=build)](https://actions-badge.atrox.dev/neil-lindquist/ci-utils/goto)
+[![Azure Pipelines Status](https://img.shields.io/azure-devops/build/archer1mail/archer1mail/1?logo=Azure%20Pipelines)](https://dev.azure.com/archer1mail/archer1mail/_build?definitionId=1&_a=summary)
+[![Github Actions Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fneil-lindquist%2Fci-utils%2Fbadge&style=flat&label=build)](https://actions-badge.atrox.dev/neil-lindquist/ci-utils/goto)
 
-CI-Utils is a set of utilities for working on continuous integration platforms, including a run script for the Fiveam test library.
+[![Coveralls coverage](https://img.shields.io/coveralls/github/neil-lindquist/CI-Utils?logo=coveralls)](https://coveralls.io/github/neil-lindquist/CI-Utils)
 
-For examples of configuring CI platforms to test Common Lisp code, see the config-examples directory.
+CI-Utils is a set of utilities and examples for working on continuous integration platforms, including a run script for the Fiveam test library.
+
+### Example CI Configurations
+Example configurations for the CI platforms supported by CI-Utils can be found in the [`config-examples`](https://github.com/neil-lindquist/CI-Utils/tree/master/config-examples) directory.
+These examples are intended to jump start using CI to test Common Lisp projects.
+Basic usage should just require replacing `foo` with the name of the system, possibly adjusting the testing framework, and moving the file (or directory in a few cases) to the project root.
+
 
 ### Installation
 If you are using Roswell, run `ros install ci-utils`.
