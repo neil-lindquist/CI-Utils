@@ -47,6 +47,7 @@ First, `:CI` is added if the `CI` environmental variable is set or the system is
 Known CI platforms have their name added (listed in the table below).
 If `CI` is set but the system is not a recognized CI platform, then `:UNKNOWN-CI` is added.
 Finally, if the `COVERALLS` environmental variable is set, then `:COVERALLS` is added.
+Note that when the `:COVERALLS` feature is added, CI-Utils replaces the platform inspection in cl-coverall with it's own functions in order to extend platform support.
 
 | Platform  |  Symbol Name |
 |:---------:|:------------:|
