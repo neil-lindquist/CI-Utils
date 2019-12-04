@@ -1,0 +1,18 @@
+# bitbucket's default image doesn't contain the needed tools for the roswell installation
+image: circleci/buildpack-deps:stretch-curl
+
+pipelines:
+  default:
+    - step:
+        name: Build and test
+        script:
+          - PATH=$HOME/.roswell/bin:$PATH
+          - curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | bash
+          - ros install neil-lindquist/ci-utils # for run-fiveam and asdf-register-project
+          #- ros install prove # for run-prove
+          #- ros install rove # for [run-] rove
+          - asdf-register-project
+
+          - run-fiveam -e t -l foo/test :foo-tests
+          #- run-prove foo.asd
+          #- rove foo.asd
