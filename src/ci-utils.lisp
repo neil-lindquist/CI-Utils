@@ -3,8 +3,10 @@
   (:export #:cip
            #:platform
            #:build-dir
+           #:build-id
+           #:pull-request-p
            #:branch
-           #:pull-request-p))
+           #:commit-id))
 
 (in-package :ci-utils)
 
