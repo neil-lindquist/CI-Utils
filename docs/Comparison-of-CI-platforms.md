@@ -3,7 +3,7 @@ I strongly recommend that, at least for tests, the CI scripts are run on as many
 My basic recommendation for which CI platform to use is Travis CI for Linux and OSX and Appveyor for Windows.
 These platforms are well documented and are commonly used platforms for open source projects.
 
-Currently, CI-Utils supports 6 CI platforms, all of which have cloud hosting and free plans for open source software.
+Currently, CI-Utils supports 7 CI platforms, all of which have cloud hosting and free plans for open source software.
 A brief description of each is listed below for comparison purposes.
 If there is another platform that you are interested in, please raise a pull request or issue and we can work through adding support and documentation.
 
@@ -15,6 +15,7 @@ If there is another platform that you are interested in, please raise a pull req
 | [Azure Pipelines](#azure-pipelines) | Linux, OSX, Windows | Github, Bitbucket, Azure Repos, and more |
 | [Gitlab CI](#gitlab-ci) | Linux | Gitlab, Github, Bitbucket, and more |
 | [Bitbucket Pipelines](#bitbucket-pipelines) | Linux | Bitbucket |
+| [Github Actions](#github-actions) | Linux, OSX, Windows | Github |
 
 
 ### Travis CI
@@ -69,3 +70,11 @@ It doesn't provide any notable features compared to other platforms, but may be 
 
 The free plan only provides 50 minutes, although users with an academic email are able to get 500 minutes for free.
 Additionally, non-profit charities can apply for a community subscription that also provides 500 CI minutes.
+
+
+### Github Actions
+Github Actions is the CI platform provided right from Github.
+The focus seems to be one modular actions that provide building blocks for different actions
+
+Free Github accounts provides 2000 minutes per month, with additional minutes for paid Github accounts.
+Additionally, there is a self-hosting option, without a time cap for free accounts.
