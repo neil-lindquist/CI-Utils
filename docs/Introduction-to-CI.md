@@ -25,7 +25,7 @@ Some people use terms like "Continuous Deployment" and "Continuous Testing", esp
 The rise of continuous integration tools for small and medium sized projects has been part of the rise of cloud computing and software as a service.
 There are a variety of cloud platforms that provide CI services; however, they all follow similar ideas for configuration and usage.
 The main method for configuring these platforms is to include a [YAML](https://yaml.org/) configuration file in the root directory of the repository named `.platform.yml` (i.e. `.travis.yml`).
-Some platforms have a different naming convention, or allow custom names.
+Some platforms have different naming requirements or configuration locations.
 You can find example configuration files for most of CI-Util's supported platforms in its [config-examples](https://github.com/neil-lindquist/CI-Utils/tree/master/config-examples) directory.
 
 The term "build" is used to describe the entire set of scripts and actions that are run after a commit.
