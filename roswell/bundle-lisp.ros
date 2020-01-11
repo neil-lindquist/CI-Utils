@@ -49,8 +49,8 @@ Options
 
 (defun move-to-output-dir (original-path)
   (let ((dest-path (make-pathname :name (pathname-name original-path)
-                                  :type (pathname-type originla-path)
-                                  :defaults *output-dir)))
+                                  :type (pathname-type original-path)
+                                  :defaults *output-dir*)))
     (uiop:rename-file-overwriting-target original-path dest-path)))
 
 (defun main (&rest argv)
@@ -78,7 +78,7 @@ Options
 
     ;; TODO add support for image and program
     ;; Both quit the image on some implementations (eg sbcl)
-    (let* (dep-ops nil ; list of ops that will also create files
+    (let* ((dep-ops nil) ; list of ops that will also create files
            (op (cond
                  ((string= "sources" compilation-mode)
                   (if monolithic
