@@ -15,9 +15,10 @@ exec ros -Q -- $0 "$@"
 
 (defun show-help ()
   (format t "~
-Usage: asdf-register-project [options]
+Usage: asdf-register-project [--help|-h]
 Registers the current project with ASDF.  Unless running on a known CI system,
 the current working directory will be used as the package directory.
+
 Options
 --help|-h                     - prints this help message")
   (uiop:quit 2))
