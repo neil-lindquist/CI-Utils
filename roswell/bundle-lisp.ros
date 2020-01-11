@@ -54,7 +54,7 @@ Options
     (uiop:rename-file-overwriting-target original-path dest-path)))
 
 (defun main (&rest argv)
-  (when (< 2 (length argv))
+  (when (> 2 (length argv))
     (show-help))
   (let ((compilation-mode (string-downcase (first argv)))
         (monolithic nil)
