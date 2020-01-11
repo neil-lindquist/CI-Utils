@@ -1,0 +1,116 @@
+#!/bin/sh
+#|-*- mode:lisp -*-|#
+#|
+exec ros -Q -- $0 "$@"
+|#
+
+;cmucl crashes with silent on
+(ql:quickload '(:alexandria :iterate)
+              :silent (not (member :cmu *features*)))
+
+(defpackage :ros.script.bundle-lisp
+  (:use :cl
+        :iterate)
+  (:import-from :alexandria
+                #:rcurry))
+(in-package :ros.script.bundle-lisp)
+
+(defun show-help ()
+  (format t "~
+Usage: bundle-lisp compilation-mode [options] systems*
+Exports bundles for the given systems to allow for program distribution.  See
+the various operations provided by ASDF for more information
+
+Compilation Modes
+sources              - Concatenates the cl source files for each system into a
+                       single source file.
+fasl                 - Compiles each system into a fasl file.  The fasl files
+                       must be loaded using a precompiled system definition.
+deliver-asd          - Compiles each system into a fasl file and the asd file
+                       necessary to load it.
+lib                  - Creates a linkable file from all linkable dependencies.
+dll                  - Creates a dynamic library for all FFI code
+help                 - Print this message.
+
+Options
+--monolithic|-m      - Bundles all systems and their dependencies into a single
+                       file.
+--output|-o <outdir> - Sets the directory for the resulting files.
+--verbose|-v         - Prints extra information about what the program is doing.
+")
+  ;;image           - Creates a system image.
+  ;;program         - Creates a executable program.
+  ;;[monolithic] Has no effect on image or program operations.
+  (uiop:quit 2))
+
+
+(defvar *output-dir* nil
+  "Contains the directory to put file output")
+
+(defun move-to-output-dir (original-path)
+  (let ((dest-path (make-pathname :name (pathname-name original-path)
+                                  :type (pathname-type originla-path)
+                                  :defaults *output-dir)))
+    (uiop:rename-file-overwriting-target original-path dest-path)))
+
+(defun main (&rest argv)
+  (when (< 2 (length argv))
+    (show-help))
+  (let ((compilation-mode (string-downcase (first argv)))
+        (monolithic nil)
+        (systems nil)
+        (op nil))
+    (iter (generate arg-list in (rest argv))
+          (for arg = (next arg-list))
+      (if (char= #\- (char arg 0))
+        ;; option
+        (cond
+          ((or (string-equal "-m" arg) (string-equal "--monolithic" arg))
+           (setf monolithic t))
+          ((or (string-equal "-o" arg) (string-equal "--output" arg))
+           (setf *output-dir* (uiop:parse-unix-namestring (next arg-list) :ensure-directory t)))
+          (t
+           (format t "Unknown option ~S" arg)
+           (show-help)))
+        ;; system
+        (push arg systems)))
+    (setf systems (mapcar 'asdf:find-system (nreverse systems)))
+
+    ;; TODO add support for image and program
+    ;; Both quit the image on some implementations (eg sbcl)
+    (let* (dep-ops nil ; list of ops that will also create files
+           (op (cond
+                 ((string= "sources" compilation-mode)
+                  (if monolithic
+                    'asdf:monolithic-concatenate-source-op
+                    'asdf:concatenate-source-op))
+                 ((string= "fasl" compilation-mode)
+                  (if monolithic
+                    'asdf:monolithic-compile-bundle-op
+                    'asdf:compile-bundle-op))
+                 ((string= "deliver-asd" compilation-mode)
+                  (if monolithic
+                    (prog1 'asdf:monolithic-deliver-asd-op
+                           (push 'asdf:monolithic-bundle-op dep-ops))
+                    (prog1 'asdf:deliver-asd-op
+                           (push 'asdf:bundle-op dep-ops))))
+                 ((string= "lib" compilation-mode)
+                  (if monolithic
+                    'asdf:monolithic-lib-op
+                    'asdf:lib-op))
+                 ((string= "dll" compilation-mode)
+                  (if monolithic
+                    'asdf:monolithic-dll-op
+                    'asdf:dll-op))
+                 ((string= "help" compilation-mode)
+                  (show-help)))))
+
+      (iter (for sys in systems)
+            (for output-files = (reduce 'append (list* op dep-ops)
+                                       :key (rcurry 'asdf:output-files sys)))
+        (asdf:operate op sys)
+        (unless output-files
+          (format t "WARNING: No output files for ~S applied to system ~S.~%"
+                  op (asdf:component-name sys)))
+        (iter (for file in output-files)
+          (move-to-output-dir file))))))
