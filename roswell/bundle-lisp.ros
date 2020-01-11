@@ -17,7 +17,7 @@ exec ros -Q -- $0 "$@"
 
 (defun show-help ()
   (format t "~
-Usage: bundle-lisp compilation-mode [options] systems*
+Usage: bundle-lisp compilation-mode [options] systems...
 Exports bundles for the given systems to allow for program distribution.  See
 the various operations provided by ASDF for more information
 
