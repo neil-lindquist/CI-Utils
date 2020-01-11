@@ -25,7 +25,7 @@ Options
 
 
 (defun main (&rest argv)
-  (when (and (> 0 (length argv))
+  (when (and (< 0 (length argv))
              (or (string-equal "-h" (first argv)) (string--equal "--help" (first argv))))
     (show-help))
   (let* ((source-registry-dir (asdf:user-source-registry-directory :direction :output))
