@@ -20,3 +20,88 @@ jobs:
           curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
       - name: Run tests
         run: roswell/run-fiveam.ros -l ci-utils/test :github-actions-tests :noncoveralls-tests :base-tests
+
+      - name: Run-test-forms tests
+        # specify shell without -e since we want to check non-0 exits manually
+        shell: bash {0}
+        run: |
+          # put test systems where asdf can find them
+          cp -av t ~/lisp/
+
+          fail=0
+
+          function check () {
+            # $1 = actual, $2 = expected
+            if [ $1 -eq $2 ]
+            then
+              echo -e "\033[0;32mGot $1, expected $2: OK\033[0m"
+            else
+              (( fail++ ))
+              echo -e "\033[0;31mGot $1, expected $2: BAD $fail\033[0m"
+            fi
+          }
+          # should fail
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(ci-utils-test-system:return-nil)"
+          check $? 1
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(ci-utils-test-system:return-x nil)"
+          check $? 1
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(ci-utils-test-system:return-not-x 123)"
+          check $? 1
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(ci-utils-test-system:return-not-x nil)" "(ci-utils-test-system:return-nil)" "(zerop (random 2))"
+          check $? 1
+
+          # should succeed
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(ci-utils-test-system:return-t)"
+          check $? 0
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(ci-utils-test-system:return-x 123)"
+          check $? 0
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(ci-utils-test-system:return-not-x nil)"
+          check $? 0
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(ci-utils-test-system:return-not-x nil)" "(ci-utils-test-system:return-t)" "(not (minusp (random 10)))"
+          check $? 0
+
+          # should error
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(:incomplete-form"
+          check $? 2
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems '(error "error1!")'
+          check $? 2
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems "(ci-utils-test-system:return-not-x nil)" "(ci-utils-test-system:return-x 2)" '(error "error2!")' "(zerop (random 2))"
+          check $? 2
+
+
+          # dependency should error
+          roswell/run-test-forms.ros -l ci-utils-test-systems/compile-error "(ci-utils-test-system:return-t)"
+          check $? 3
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems/load-error "(ci-utils-test-system:return-t)"
+          check $? 3
+
+          roswell/run-test-forms.ros -l ci-utils-test-systems/compile-warn "(ci-utils-test-system:return-t)"
+          check $? 3
+
+          # should succeed?
+          roswell/run-test-forms.ros -l ci-utils-test-systems/load-warn "(ci-utils-test-system:return-t)"
+          check $? 0
+
+
+          echo done...
+
+          if [ $fail -eq 0 ]
+          then
+            echo -e "\033[0;32m$fail failures\033[0m"
+            exit 0
+          else
+            echo -e "\033[0;31m$fail failures\033[0m"
+            exit 1
+          fi
