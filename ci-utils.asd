@@ -36,3 +36,12 @@
   :components ((:file "tests"))
   :perform (test-op (o c) (symbol-call '#:fiveam '#:run! '(:user-tests
                                                            :noncoveralls-tests))))
+
+(defsystem "ci-utils/utils"
+  :description "Extra utilities for CI-Utils roswell scripts"
+  :license "MIT"
+  :depends-on ("ci-utils")
+  :pathname "src"
+  :serial t
+  :components ((:file "utils")))
+
