@@ -7,7 +7,7 @@ exec ros -Q -- $0 "$@"
 ;cmucl crashes with silent on
 (ql:quickload '(:ci-utils/utils) :silent (not (member :cmu *features*)))
 (ci-utils/utils:quickload '(:ci-utils/coveralls :iterate)
-           :silent (not (member :cmu *features*)))
+                          :silent (not (member :cmu *features*)))
 
 (defpackage :ros.script.run-test-forms
   (:use :cl :iterate :ci-utils/utils))
@@ -61,11 +61,10 @@ Options
          (quickload loaded-systems :fail-on-error 3))
        (setf excluded (nconc excluded (ci-utils/coveralls:coverage-excluded)))
        (ci-utils/coveralls:with-coveralls excluded
-         (unless
-          (loop for form in forms
-                do (format t "evaluating ~s~% =  " form)
-                always (let ((r (with-fail-on-errors (:code 2)
-                                  (eval (read-from-string form)))))
-                         (format t " ~s~%" r)
-                         r))
+         (unless (loop for form in forms
+                       do (format t "~&evaluating ~s~%" form)
+                       always (let ((r (with-fail-on-errors (:code 2)
+                                         (eval (read-from-string form)))))
+                                (format t "~&  returned ~s~%" r)
+                                r))
            (uiop:quit 1)))))))
