@@ -5,6 +5,11 @@
   :depends-on ()
   :components ((:file "test-system")))
 
+(defsystem ci-utils-test-systems/dep-error
+  :depends-on (ci-utils-test-systems/missing-system)
+  :components (()))
+
+
 (defsystem ci-utils-test-systems/compile-error
   :depends-on (ci-utils-test-systems)
   :components ((:file "test-system-compile-error")))
