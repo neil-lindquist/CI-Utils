@@ -90,13 +90,13 @@ jobs:
           roswell/run-test-forms.ros -l ci-utils-test-systems/dep-compile-error  "(ci-utils-test-system:return-t)"
           check $? 3
 
-          roswell/run-test-forms.ros -l ci-utils-test-systems/compile-warn "(ci-utils-test-system:return-t)"
-          check $? 3
-
           roswell/run-test-forms.ros -l ci-utils-test-systems/load-error "(ci-utils-test-system:return-t)"
           check $? 3
 
           # should succeed?
+          roswell/run-test-forms.ros -l ci-utils-test-systems/compile-warn "(ci-utils-test-system:return-t)"
+          check $? 0
+
           roswell/run-test-forms.ros -l ci-utils-test-systems/load-warn "(ci-utils-test-system:return-t)"
           check $? 0
 
