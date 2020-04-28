@@ -7,7 +7,7 @@
 
 (defsystem ci-utils-test-systems/dep-error
   :depends-on (ci-utils-test-systems/missing-system)
-  :components (()))
+  :components ())
 
 
 (defsystem ci-utils-test-systems/compile-error
