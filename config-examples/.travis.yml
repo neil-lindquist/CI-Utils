@@ -1,7 +1,6 @@
 ### Example configuration for Travis CI ###
 
-language: common-lisp
-sudo: false
+language: generic
 
 addons:
   homebrew:
@@ -23,7 +22,7 @@ env:
     - PATH=~/.roswell/bin:$PATH
     - ROSWELL_INSTALL_DIR=$HOME/.roswell
 #    - COVERAGE_EXCLUDE=t  # for prove or rove
-  matrix:
+  jobs:
     # The implementation and whether coverage is send to coveralls are controlled with these environmental variables
     - LISP=sbcl-bin COVERALLS=true
     - LISP=abcl
@@ -33,7 +32,7 @@ env:
     - LISP=cmucl
 
 # Additional OS/Lisp combinations can be added to those generated above
-matrix:
+jobs:
   include:
     - os: osx
       env: LISP=sbcl-bin
