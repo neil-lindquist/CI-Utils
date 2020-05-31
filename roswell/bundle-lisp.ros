@@ -57,12 +57,13 @@ Options
 
 (defun run-quitting-op (op sys)
   "Evaluates an asdf operation that may kill the lisp process"
-  (multiple-value-bind (_ _ status)
+  (multiple-value-bind (out err status)
     (let ((component-name (asdf:component-name sys)))
       (uiop:run-program (list "ros" "--system" component-name
                                     "--eval" (format nil "(asdf:operate ~S ~S)" op component-name)
                                     "--quit")
                         :output t :error-output t))
+    (declare (ignorable out err))
     (when (/= status 0)
       (uiop:quit status))))
 
