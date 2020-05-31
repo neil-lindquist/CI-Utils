@@ -25,7 +25,7 @@ applied to all systems together, a system containing each of those systems must
 be created
 
 Compilation Modes
-sources              - Concatenates the cl source files for each system into a
+source              - Concatenates the cl source files for each system into a
                        single source file.
 fasl                 - Compiles each system into a fasl file.  The fasl files
                        must be loaded using a precompiled system definition.
@@ -90,7 +90,7 @@ Options
 
     (let* ((dep-ops nil) ; list of ops that will also create files
            (op (cond
-                 ((string= "sources" compilation-mode)
+                 ((string= "source" compilation-mode)
                   (if monolithic
                     'asdf:monolithic-concatenate-source-op
                     'asdf:concatenate-source-op))
@@ -119,7 +119,7 @@ Options
                  ((string= "help" compilation-mode)
                   (show-help))
                  (t
-                  (format t "Unknown compilation mode ~S" compilation-mode)
+                  (format t "Unknown compilation mode ~S~%" compilation-mode)
                   (uiop:quit 1)))))
 
       (iter (for sys in systems)
