@@ -60,7 +60,7 @@ Options
   (multiple-value-bind (out err status)
     (let ((component-name (asdf:component-name sys)))
       (uiop:run-program (list "ros" "--system" component-name
-                                    "--eval" (format nil "(asdf:operate ~S ~S)" op component-name)
+                                    "--eval" (format nil "(asdf:operate '~S '~S)" op component-name)
                                     "--quit")
                         :output t :error-output t))
     (declare (ignorable out err))
