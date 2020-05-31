@@ -117,7 +117,10 @@ Options
                  ((string= "program" compilation-mode)
                   'asdf:program-op)
                  ((string= "help" compilation-mode)
-                  (show-help)))))
+                  (show-help))
+                 (t
+                  (format t "Unknown compilation mode ~S" compilation-mode)
+                  (uiop:quit 1)))))
 
       (iter (for sys in systems)
             (for output-files = (reduce 'append (list* op dep-ops)
