@@ -18,8 +18,11 @@ exec ros -Q -- $0 "$@"
 (defun show-help ()
   (format t "~
 Usage: bundle-lisp compilation-mode [options] systems...
-Exports bundles for the given systems to allow for program distribution.  See
-the various operations provided by ASDF for more information
+Exports bundles for each of the given systems to allow for program distribution.
+See the various operations provided by ASDF for more information.  Note that the
+operation is applied to each system separately; if the operation should be
+applied to all systems together, a system containing each of those systems must
+be created
 
 Compilation Modes
 sources              - Concatenates the cl source files for each system into a
@@ -30,6 +33,8 @@ deliver-asd          - Compiles each system into a fasl file and the asd file
                        necessary to load it.
 lib                  - Creates a linkable file from all linkable dependencies.
 dll                  - Creates a dynamic library for all FFI code.
+image                - Creates an image after loading the system.
+program              - Creates an executable for the system.
 help                 - Print this message.
 
 Options
@@ -38,9 +43,6 @@ Options
 --output|-o <outdir> - Sets the directory for the resulting files.
 --verbose|-v         - Prints extra information about what the program is doing.
 ")
-  ;;image           - Creates a system image.
-  ;;program         - Creates a executable program.
-  ;;[monolithic] Has no effect on image or program operations.
   (uiop:quit 2))
 
 
@@ -52,6 +54,17 @@ Options
                                   :type (pathname-type original-path)
                                   :defaults *output-dir*)))
     (uiop:rename-file-overwriting-target original-path dest-path)))
+
+(defun run-quitting-op (op sys)
+  "Evaluates an asdf operation that may kill the lisp process"
+  (multiple-value-bind (_ _ status)
+    (let ((component-name (asdf:component-name sys)))
+      (uiop:run-program (list "ros" "--system" component-name
+                                    "--eval" (format nil "(asdf:operate ~S ~S)" op component-name)
+                                    "--quit")
+                        :output t :error-output t))
+    (when (/= status 0)
+      (uiop:quit status))))
 
 (defun main (&rest argv)
   (when (> 2 (length argv))
@@ -75,8 +88,6 @@ Options
         (push arg systems)))
     (setf systems (mapcar 'asdf:find-system (nreverse systems)))
 
-    ;; TODO add support for image and program
-    ;; Both quit the image on some implementations (eg sbcl)
     (let* ((dep-ops nil) ; list of ops that will also create files
            (op (cond
                  ((string= "sources" compilation-mode)
@@ -101,13 +112,20 @@ Options
                   (if monolithic
                     'asdf:monolithic-dll-op
                     'asdf:dll-op))
+                 ((string= "image" compilation-mode)
+                  'asdf:image-op)
+                 ((string= "program" compilation-mode)
+                  'asdf:program-op)
                  ((string= "help" compilation-mode)
                   (show-help)))))
 
       (iter (for sys in systems)
             (for output-files = (reduce 'append (list* op dep-ops)
                                        :key (rcurry 'asdf:output-files sys)))
-        (asdf:operate op sys)
+        (if (member op '(asdf:image-op asdf:program-op))
+          ;; image-op and program-op need special treatment since they sometimes requiring killing the current process
+          (run-quitting-op op sys)
+          (asdf:operate op sys))
         (unless output-files
           (format t "WARNING: No output files for ~S applied to system ~S.~%"
                   op (asdf:component-name sys)))
