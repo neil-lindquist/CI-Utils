@@ -29,7 +29,7 @@ fasl                 - Compiles each system into a fasl file.  The fasl files
 deliver-asd          - Compiles each system into a fasl file and the asd file
                        necessary to load it.
 lib                  - Creates a linkable file from all linkable dependencies.
-dll                  - Creates a dynamic library for all FFI code
+dll                  - Creates a dynamic library for all FFI code.
 help                 - Print this message.
 
 Options
