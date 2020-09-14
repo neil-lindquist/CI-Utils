@@ -1,6 +1,6 @@
 name: CI
 
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   test:
@@ -8,15 +8,22 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        lisp: [sbcl-bin]
-        os: [ubuntu-latest, macOS-latest]
+        lisp: [sbcl-bin, ccl-bin]
+        os: [windows-latest, ubuntu-latest, macOS-latest]
 
     steps:
+      - name: windows specific settings
+        if: matrix.os == 'windows-latest'
+        run: |
+          git config --global core.autocrlf false
+          echo "::set-env name=ROSWELL_INSTALL_DIR::$HOME/ros"
+          echo "::add-path::$HOME/ros/bin"
       - uses: actions/checkout@v1
       - name: Install Roswell
+        shell: bash
         env:
           LISP: ${{ matrix.lisp }}
-        run: |
-          curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
+        run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh -x
       - name: Run tests
+        shell: bash
         run: roswell/run-fiveam.ros -l ci-utils/test :github-actions-tests :noncoveralls-tests :base-tests
