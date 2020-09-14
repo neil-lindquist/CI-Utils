@@ -65,8 +65,8 @@
   #+bitbucket-pipelines (uiop:getenvp "BITBUCKET_PR_ID")
   #+azure-pipelines (uiop:getenvp "SYSTEM_PULLREQUEST_PULLREQUESTID")
   #+github-actions (when (string= "pull_request" (uiop:getenvp "GITHUB_EVENT_NAME"))
-                     (let ((ref-name (uiop:getenv "GITHUB_REF"))))
-                     (subseq ref-name 10 (- (length ref-name) 6)))
+                     (let ((ref-name (uiop:getenv "GITHUB_REF")))
+                       (subseq ref-name 10 (- (length ref-name) 6))))
   #+(or (not ci) unknown-ci) nil)
 
 (defun branch ()
