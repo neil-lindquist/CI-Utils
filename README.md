@@ -1,11 +1,11 @@
 ## CI-Utils
 
-[![Travis Status](https://img.shields.io/travis/neil-lindquist/ci-utils.svg?logo=Travis)](https://travis-ci.org/neil-lindquist/CI-Utils)
-[![CircleCI Status](https://img.shields.io/circleci/build/github/neil-lindquist/CI-Utils.svg?logo=CircleCI)](https://circleci.com/gh/neil-lindquist/CI-Utils)
+[![Travis Status](https://img.shields.io/travis/neil-lindquist/CI-Utils/master?logo=Travis)](https://travis-ci.org/neil-lindquist/CI-Utils)
+[![CircleCI Status](https://img.shields.io/circleci/build/github/neil-lindquist/CI-Utils/master?logo=CircleCI)](https://circleci.com/gh/neil-lindquist/CI-Utils)
 [![Appveyor Status](https://ci.appveyor.com/api/projects/status/mm1swvm28hpp2oc5/branch/master?svg=true)](https://ci.appveyor.com/project/neil-lindquist/ci-utils/branch/master)
-[![Gitlab CI Status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils.svg?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)
-[![Bitbucket pipelines status](https://img.shields.io/bitbucket/pipelines/nlindqu1/ci-utils?logo=bitbucket)](https://bitbucket.org/nlindqu1/ci-utils/addon/pipelines/home#!/)
-[![Azure Pipelines Status](https://img.shields.io/azure-devops/build/archer1mail/archer1mail/1?logo=Azure%20Pipelines)](https://dev.azure.com/archer1mail/archer1mail/_build?definitionId=1&_a=summary)
+[![Gitlab CI Status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils/master?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)
+[![Bitbucket pipelines status](https://img.shields.io/bitbucket/pipelines/nlindqu1/ci-utils/master?logo=bitbucket)](https://bitbucket.org/nlindqu1/ci-utils/addon/pipelines/home#!/)
+[![Azure Pipelines Status](https://img.shields.io/azure-devops/build/archer1mail/archer1mail/1/master?logo=azure%20pipelines)](https://dev.azure.com/archer1mail/archer1mail/_build?definitionId=1&_a=summary)
 [![Github Actions Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fneil-lindquist%2Fci-utils%2Fbadge&style=flat&label=build)](https://actions-badge.atrox.dev/neil-lindquist/ci-utils/goto)
 
 [![Coveralls coverage](https://img.shields.io/coveralls/github/neil-lindquist/CI-Utils?logo=coveralls)](https://coveralls.io/github/neil-lindquist/CI-Utils)
