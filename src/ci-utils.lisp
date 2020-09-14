@@ -16,7 +16,18 @@
   #-ci nil)
 
 (defun platform ()
-  "Returns the current CI platform.  When on a non-ci platform, nil is returned."
+  "Returns the current CI platform.  When on a non-ci platform, nil is returned.
+The following is the symbols for supported platforms
+|      Platform       |       Symbol Name      |
+|:-------------------:|:----------------------:|
+|      Travis CI      |      `:TRAVIS-CI`      |
+|      Circle CI      |      `:CIRCLECI`      |
+|      Appveyor       |      `:APPVEYOR`       |
+|      GitLab CI      |      `:GITLAB-CI`      |
+| Bitbucket Pipelines | `:BITBUCKET-PIPELINES` |
+|   Azure Pipelines   |   `:AZURE-PIPELINES`   |
+|    Github Actions   |    `:GITHUB-ACTIONS`   |
+| unknown ci systems  |      `:UNKNOWN-CI`     |"
   #+travis-ci :travis-ci
   #+circleci :circleci
   #+appveyor :appveyor

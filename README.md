@@ -52,7 +52,7 @@ Note that when the `:COVERALLS` feature is added, CI-Utils replaces the platform
 | Platform  |  Symbol Name |
 |:---------:|:------------:|
 | Travis CI | `:TRAVIS-CI` |
-| Circle CI | `:CIRCLE-CI` |
+| Circle CI | `:CIRCLECI`  |
 | Appveyor  | `:APPVEYOR`  |
 | GitLab CI | `:GITLAB-CI` |
 | Bitbucket Pipelines | `:BITBUCKET-PIPELINES` |

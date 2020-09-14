@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Install Roswell and CI-Utils
+      - name: Install Roswell
         env:
           LISP: ${{ matrix.lisp }}
         run: |
