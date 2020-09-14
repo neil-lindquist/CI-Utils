@@ -12,7 +12,8 @@ This introduction focuses more on running tests since that is the use case for m
 
 
 A quick note on styling, because uppercase I and lowercase L can look similar, the abbreviations CI and CL can look similar.
-To address this, a convention is used that both letters in these acronyms should always be the same case (i.e. CI means Continuous Integration, while Cl will never be used).
+To address this, this project uses the convention that both letters in these acronyms should always be the same case (i.e. CI means Continuous Integration, while Cl will never be used).
+I strongly encourage other users of CI with CL to use this convention too.
 
 
 Technically, the phrase "Continuous Integration" originally referred to integrating each developer's working copy of a codebase into the master copy on a regular basis to ensure that integrating the various changes doesn't become a monumental task.

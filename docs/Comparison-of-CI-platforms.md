@@ -18,7 +18,7 @@ If there is another platform that you are interested in, please raise a pull req
 | [Github Actions](#github-actions) | Linux, OSX, Windows | Github |
 
 
-### Travis CI
+### [Travis CI](https://travis-ci.org/)
 Travis CI is one of the oldest cloud hosted CI platforms, and thus is well documented and has plenty of examples.
 Unfortunately, only Github repositories are supported.
 Additionally, Travis only supports Linux and OSX, with OSX builds usually being slower due to a combination of limits on parallel jobs and homebrew needing to update a number of packages every time.
@@ -29,7 +29,7 @@ Travis is free for public repositories.
 Private repositories require payment (with a free trial).
 Additionally, Travis CI Enterprise provides an option for self hosting, as well as other quality of life benefits.
 
-### Appveyor
+### [Appveyor](https://www.appveyor.com/)
 Appveyor is another popular CI platform, with a focus Windows.
 It's oriented for development of native Windows code, but supports non-C/C++ projects just fine.
 Support for Linux jobs is documented; however, when tested it immediately failed to create the folder for the build.
@@ -39,7 +39,7 @@ Finally, Appveyor offers self hosting to all users.
 Appveyor is free for public repositories and a single private repository.
 Paid accounts provide unlimited private repositories and running jobs in parallel.
 
-### CircleCI
+### [CircleCI](https://circleci.com/)
 CircleCI is designed for performance and effective management of computing resources.
 Additionally, it provides the ability to run a single job multiple times in parallel.
 This allows a test suite, or other work load, to be parallelized, either manually using the `CIRCLE_NODE_TOTAL` and `CIRCLE_NODE_INDEX` environmental variables or their `circleci tests split` command.
@@ -48,7 +48,7 @@ CircleCI provides a free plan with 1 Linux container for private projects as wel
 Note that parallel jobs use multiple containers (i.e. 2x parallelism results in each job using 2 containers).
 Additionally, there are paid plans for increased numbers of containers, and a self hosted server.
 
-### Azure Pipelines
+### [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/)
 Azure Pipelines is the CI service of Microsoft's Azure cloud computing offerings.
 Azure pipelines is the only one of these platforms that successfully supports all three major operating systems.
 Additionally, it is designed to integrate well with other Azure services.
@@ -58,13 +58,13 @@ Azure pipelines provides a free plan with 1 job at a time and up to 1,800 minute
 There are also paid plans that allow for running more jobs in parallel and more build time.
 
 
-### Gitlab CI
+### [Gitlab CI](https://docs.gitlab.com/ee/ci/)
 Gitlab provides a CI platform right out of the box for both cloud hosted and self hosted instances of Gitlab, including [gitlab.common-lisp.net](https://gitlab.common-lisp.net).
 Interestingly, Gitlab CI also allows, and even encourages, use of it's CI system for repositories not hosted in Gitlab, although this does involve a lightweight mirror of the repository.
 
 The only limitation of Gitlab's free account for CI purposes is a limit of 2,000 minutes per month when using the cloud hosted instance, and no restrictions for self hosted instances.
 
-### Bitbucket Pipelines
+### [Bitbucket Pipelines](https://bitbucket.org/product/features/pipelines)
 Bitbucket pipelines is Bitbucket's CI offering.
 It doesn't provide any notable features compared to other platforms, but may be convenient for projects hosted on Bitbucket.
 
@@ -72,7 +72,7 @@ The free plan only provides 50 minutes, although users with an academic email ar
 Additionally, non-profit charities can apply for a community subscription that also provides 500 CI minutes.
 
 
-### Github Actions
+### [Github Actions](https://github.com/features/actions)
 Github Actions is the CI platform provided right from Github.
 The focus seems to be one modular actions that provide building blocks for different actions
 
