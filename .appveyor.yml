@@ -18,6 +18,12 @@ environment:
     - LISP: sbcl-bin
 
 install:
+  # Mingw updated package signers, so pacman needs to be informed
+  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+  - bash -lc "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
+  - bash -lc "pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
+
   - bash -lc 'pacman -Sy --noconfirm mingw64/mingw-w64-x86_64-zeromq mingw32/mingw-w64-i686-zeromq'
   - ps: appveyor DownloadFile $Env:ROSWELL_ZIP -FileName Roswell.zip
   - 7z x -o%USERPROFILE% Roswell.zip
