@@ -10,6 +10,9 @@
 
 [![Coveralls coverage](https://img.shields.io/coveralls/github/neil-lindquist/CI-Utils?logo=coveralls)](https://coveralls.io/github/neil-lindquist/CI-Utils)
 
+![MIT License](https://img.shields.io/github/license/neil-lindquist/linear-programming.svg?color=informational)
+[![Current documentation](https://img.shields.io/badge/docs-current-informational.svg)](https://neil-lindquist.github.io/linear-programming/)
+
 CI-Utils is a set of utilities and examples for working on continuous integration platforms, including a run script for the Fiveam test library.
 
 ### Example CI Configurations
