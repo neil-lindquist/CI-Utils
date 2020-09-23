@@ -4,13 +4,19 @@
 
 (in-package :ci-utils/utils)
 
+
 (defmacro with-fail-on-errors ((&key (code 123)) &body body)
   "print a stack trace and then exit with CODE when BODY signals
   any error"
   `(handler-bind ((error (lambda (&optional e)
-                           (format t "caught error ~s~%~a~%" e e)
-                           (uiop:print-condition-backtrace
-                            e :stream *standard-output*)
+                           (format t "caught error:~%")
+                           ;; make sure we exit properly even if
+                           ;; errors or backtrace can't be printed
+                           (ignore-errors (format t "  ~a~%" e))
+                           (ignore-errors (format t "  ~s~%" e))
+                           (ignore-errors
+                            (uiop:print-condition-backtrace
+                             e :stream *standard-output*))
                            (finish-output)
                            (uiop:quit ,code))))
      (progn ,@body)))
