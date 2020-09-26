@@ -17,7 +17,7 @@ Official platform documentation:
 
 Common Lisp specific advice
 * [Roswell's CI documentation](https://github.com/roswell/roswell/wiki/Roswell-as-a-Testing-Environment)
-* Blog posts by [3b](https://github.com/3b/) for Github Actions: [Part 1](http://3bb.cc/blog/2020/09/11/github-ci/) and [Part 2](http://3bb.cc/blog/2020/09/13/github-ci2/)
+* Blog posts by [3b](https://github.com/3b/) for Github Actions: [Part 1](http://3bb.cc/blog/2020/09/11/github-ci/), [Part 2](http://3bb.cc/blog/2020/09/13/github-ci2/), [Part 3](http://3bb.cc/blog/2020/09/25/github-ci3/)
 * [lisp-lang.org CI page](https://lisp-lang.org/learn/continuous-integration)
 * [The Common Lisp Cookbook - Continuous Integration](https://lispcookbook.github.io/cl-cookbook/testing.html#continuous-integration)
 
