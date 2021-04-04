@@ -22,7 +22,14 @@ jobs:
           echo "$HOME/ros/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v1
       - name: Install Roswell
+        shell: msys2 {0}
+        if: matrix.os == 'windows-latest'
+        env:
+          LISP: ${{ matrix.lisp }}
+        run: curl -L https://raw.githubusercontent.com/roswell/roswell/v20.06.14.107/scripts/install-for-ci.sh | sh -x
+      - name: Install Roswell
         shell: bash
+        if: matrix.os != 'windows-latest'
         env:
           LISP: ${{ matrix.lisp }}
         run: curl -L https://raw.githubusercontent.com/roswell/roswell/v20.06.14.107/scripts/install-for-ci.sh | sh -x
