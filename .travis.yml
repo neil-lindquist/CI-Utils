@@ -19,8 +19,9 @@ env:
   jobs:
     - LISP=sbcl-bin DOCS=true
       COVERALLS_TEST=:noncoveralls-tests
-    - LISP=sbcl-bin COVERALLS=true COVERAGE_EXCLUDE=t:test-launcher.txt
-      COVERALLS_TEST=:coveralls-tests
+    # CL-coveralls is temporaraly broken
+    # - LISP=sbcl-bin COVERALLS=true COVERAGE_EXCLUDE=t:test-launcher.txt
+    #   COVERALLS_TEST=:coveralls-tests  COVERALLS_REPO_TOKEN=ignore
     - LISP=abcl
       COVERALLS_TEST=:noncoveralls-tests
     - LISP=ecl
@@ -36,8 +37,10 @@ jobs:
   include:
     - os: osx
       env: LISP=sbcl-bin
+      osx_image: xcode12.2
     - os: osx
       env: LISP=ccl-bin
+      osx_image: xcode12.2
 
 cache:
   directories:
