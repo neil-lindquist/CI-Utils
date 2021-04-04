@@ -23,7 +23,7 @@ jobs:
         shell: bash
         env:
           LISP: ${{ matrix.lisp }}
-        run: curl -L https://raw.githubusercontent.com/roswell/roswell/v20.06.14.1077/scripts/install-for-ci.sh | sh -x
+        run: curl -L https://raw.githubusercontent.com/roswell/roswell/v20.06.14.107/scripts/install-for-ci.sh | sh -x
       - name: Run tests
         shell: bash
         run: roswell/run-fiveam.ros -l ci-utils/test :github-actions-tests :noncoveralls-tests :base-tests
