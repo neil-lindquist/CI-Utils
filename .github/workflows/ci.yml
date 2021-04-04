@@ -9,12 +9,12 @@ jobs:
     strategy:
       matrix:
         lisp: [sbcl-bin, ccl-bin]
-        os: [windows-latest, ubuntu-latest, macOS-latest]
+        os: [ubuntu-latest, macOS-latest]
+        # windows-latest
 
     steps:
       - name: windows specific settings
         if: matrix.os == 'windows-latest'
-        continue-on-error: true
         run: |
           git config --global core.autocrlf false
           echo "ROSWELL_INSTALL_DIR=$HOME/ros" >> $GITHUB_ENV
@@ -22,7 +22,6 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install Roswell
         shell: bash
-        continue-on-error: true
         env:
           LISP: ${{ matrix.lisp }}
         run: curl -L https://raw.githubusercontent.com/roswell/roswell/v20.06.14.107/scripts/install-for-ci.sh | sh -x
