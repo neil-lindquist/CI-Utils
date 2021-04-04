@@ -17,9 +17,7 @@ jobs:
     pool:
       vmImage: $(imageName)
     steps:
-      - shell: powershell
-        name: Install Scoop
-        run: iwr -useb get.scoop.sh | iex
+      - powershell: iwr -useb get.scoop.sh | iex
       - script: |
             scoop install roswell
             ros install %LISP%
