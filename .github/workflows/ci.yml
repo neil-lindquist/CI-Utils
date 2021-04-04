@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: windows specific settings
         if: matrix.os == 'windows-latest'
+        continue-on-error: true
         run: |
           git config --global core.autocrlf false
           echo "ROSWELL_INSTALL_DIR=$HOME/ros" >> $GITHUB_ENV
