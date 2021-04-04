@@ -20,15 +20,13 @@ jobs:
       - powershell: |
             iwr -useb get.scoop.sh | iex
             scoop install roswell
-      - script: |
             ros install %LISP%
             ros config
             mkdir "%LOCALAPPDATA%\config\common-lisp\source-registry.conf.d\"
-            set "dir=%AGENT_BUILDDIRECTORY:\=/%"
-            echo (:tree "%dir%") > "%LOCALAPPDATA%\config\common-lisp\source-registry.conf.d\ci.conf"
+            # $Env:dir = "%AGENT_BUILDDIRECTORY:\=/%"
+            echo (:tree "$Env:AGENT_BUILDDIRECTORY") > "$Env:LOCALAPPDATA\config\common-lisp\source-registry.conf.d\ci.conf"
         displayName: Install and configure Rowswell
 
-      - script: |
-            set PATH=%PATH%;%USERPROFILE%\roswell\
+      - powershell: |
             ros -Q -- roswell/run-fiveam.ros -l ci-utils/test :azure-pipelines-tests :base-tests :noncoveralls-tests
         displayName: Run tests
