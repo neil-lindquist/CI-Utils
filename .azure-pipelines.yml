@@ -17,9 +17,10 @@ jobs:
     pool:
       vmImage: $(imageName)
     steps:
-      - powershell: iwr -useb get.scoop.sh | iex
-      - script: |
+      - powershell: |
+            iwr -useb get.scoop.sh | iex
             scoop install roswell
+      - script: |
             ros install %LISP%
             ros config
             mkdir "%LOCALAPPDATA%\config\common-lisp\source-registry.conf.d\"
