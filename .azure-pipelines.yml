@@ -5,7 +5,6 @@ trigger:
 
 variables:
   LISP: sbcl-bin
-  ROSWELL_ZIP: https://ci.appveyor.com/api/projects/snmsts/roswell-en89n/artifacts/Roswell-x86_64.zip?branch=master&job=Environment%3A%20MSYS2_ARCH%3Dx86_64,%20MSYS2_BITS%3D64,%20MSYSTEM%3DMINGW64,%20METHOD%3Dcross
 
 
 jobs:
@@ -18,17 +17,15 @@ jobs:
     pool:
       vmImage: $(imageName)
     steps:
-      - pwsh: Invoke-WebRequest -Uri $Env:ROSWELL_ZIP -OutFile Roswell.zip
-        displayName: Download roswell
       - script: |
-            set PATH=%PATH%;%USERPROFILE%\roswell\
-            7z x -o%USERPROFILE% Roswell.zip
+            iwr -useb get.scoop.sh | iex
+            scoop install roswell
             ros install %LISP%
             ros config
             mkdir "%LOCALAPPDATA%\config\common-lisp\source-registry.conf.d\"
             set "dir=%AGENT_BUILDDIRECTORY:\=/%"
             echo (:tree "%dir%") > "%LOCALAPPDATA%\config\common-lisp\source-registry.conf.d\ci.conf"
-        displayName: Unzip and configure
+        displayName: Install and configure Rowswell
 
       - script: |
             set PATH=%PATH%;%USERPROFILE%\roswell\
