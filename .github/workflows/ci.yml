@@ -16,8 +16,8 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           git config --global core.autocrlf false
-          echo "::set-env name=ROSWELL_INSTALL_DIR::$HOME/ros"
-          echo "::add-path::$HOME/ros/bin"
+          echo "ROSWELL_INSTALL_DIR=$HOME/ros" >> $GITHUB_ENV
+          echo "$HOME/ros/bin" >> $GITHUB_PATH
       - uses: actions/checkout@v1
       - name: Install Roswell
         shell: bash
