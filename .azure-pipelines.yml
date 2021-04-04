@@ -24,7 +24,7 @@ jobs:
             ros config
             mkdir "%LOCALAPPDATA%\config\common-lisp\source-registry.conf.d\"
             # $Env:dir = "%AGENT_BUILDDIRECTORY:\=/%"
-            echo (:tree "$Env:AGENT_BUILDDIRECTORY") > "$Env:LOCALAPPDATA\config\common-lisp\source-registry.conf.d\ci.conf"
+            echo "(:tree \"$Env:AGENT_BUILDDIRECTORY\")" > "$Env:LOCALAPPDATA\config\common-lisp\source-registry.conf.d\ci.conf"
         displayName: Install and configure Rowswell
 
       - powershell: |
