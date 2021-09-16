@@ -22,7 +22,7 @@
                  ,@body))
 
 (defun coverage-excluded ()
-  "Gets the contents of the COVERAGE_EXCLUDED environemental variable as a list
+  "Gets the contents of the COVERAGE_EXCLUDE environemental variable as a list
    of path strings"
   ; Copied from Eitaro Fukamachi's run-prove under the MIT license
   ; https://github.com/fukamachi/prove/blob/master/roswell/run-prove.ros
