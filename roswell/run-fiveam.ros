@@ -23,7 +23,7 @@ allowing package qualified test names to be used.
 
 If the COVERALLS environemenal variable is present and non-empty, coverage will
 be measured and reported to COVERALLS on platforms supported by CI-Utils.
-Additionally, the environmental variable COVERAGE_EXCLUDED is read as a colon
+Additionally, the environmental variable COVERAGE_EXCLUDE is read as a colon
 seperated list of paths to exclude from measuring coverage, in addition to those
 specified as arguments.
 
