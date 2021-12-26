@@ -5,9 +5,20 @@ exec ros -Q -- $0 "$@"
 |#
 
 ;cmucl crashes with silent on
-(ql:quickload '(:ci-utils/utils) :silent (not (member :cmu *features*)))
-(ci-utils/utils:quickload '(:ci-utils/coveralls :iterate)
-                          :silent (not (member :cmu *features*)))
+(handler-bind ((error (lambda (&optional e)
+                        (format t "caught error:~%")
+                        ;; make sure we exit properly even if
+                        ;; errors or backtrace can't be printed
+                        (ignore-errors (format t "  ~a~%" e))
+                        (ignore-errors (format t "  ~s~%" e))
+                        (ignore-errors
+                         (uiop:print-condition-backtrace
+                          e :stream *standard-output*))
+                        (finish-output)
+                        (uiop:quit 5))))
+  (ql:quickload '(:ci-utils/utils) :silent (not (member :cmu *features*)))
+  (ci-utils/utils:quickload '(:ci-utils/coveralls :iterate)
+                            :silent (not (member :cmu *features*))))
 
 (defpackage :ros.script.run-test-forms
   (:use :cl :iterate :ci-utils/utils))
@@ -18,53 +29,66 @@ exec ros -Q -- $0 "$@"
   (format t "~
 Usage: run-test-forms [options] <forms>
 Evaluates FORMS, exiting with code 0 if all FORMS returns non-NIL, 1 if any
-returns NIL, or 2 when one ERRORs. Any requires systems should be expliicitly
+returns NIL, or 2 when one ERRORs. Any required systems should be explicitly
 loaded with -l or --quickload option. If loading dependencies ERRORs, exit
-with code 3.
+with code 3. If this help is shown, exit with code 4. On any other errors,
+will try to exit with code 5.
 
-If the COVERALLS environemenal variable is present and non-empty, coverage will
+If the COVERALLS environment variable is present and non-empty, coverage will
 be measured and reported to COVERALLS on platforms supported by CI-Utils.
-Additionally, the environmental variable COVERAGE_EXCLUDED is read as a colon
-seperated list of paths to exclude from measuring coverage, in addition to those
-specified as arguments.
+Additionally, the environment variable COVERAGE_EXCLUDED is read as a colon
+separated list of paths to exclude from measuring coverage, in addition to
+those specified as arguments.
 
 Note that currently the systems in the project root are loaded with
 COVERALLS is enable.  This behavior is not to be relied on and may change in
 the future, so instead use the `--quicklisp`/`-l` flag.
 Options
 --help|-h                     - prints this help message
---quickload|-l <sytem>        - lists an additional system to load
+--quickload|-l <system>       - lists an additional system to load
 --coverage-exclude|-e <file>  - lists a path to excluded from the coverage
                                 measurement
+--pass-exit-code|-r <code>    - specify exit code for successful run (default 0)
 ~%")
   (uiop:quit 4))
 
 
 (defun main (&rest argv)
-  (when (> 1 (length argv))
-    (show-help))
-  (with-fail-on-errors (:code 5)
-    (iter (generate arg-list in argv)
-      (for arg = (next arg-list))
-      (cond
-        ((or (string= "--help" arg) (string= "-h" arg))
-         (show-help))
-        ((or (string= "--quickload" arg) (string= "-l" arg))
-         (collect (next arg-list) into loaded-systems))
-        ((or (string= "--coverage-exclude" arg) (string= "-e" arg))
-         (collect (next arg-list) into excluded))
-        (t
-         (collect arg into forms)))
-      ;;evaluate tests here with `loaded-systems`, `excluded`, and `tests` in scope
-      (finally
-       (when loaded-systems
-         (quickload loaded-systems :fail-on-error 3))
-       (setf excluded (nconc excluded (ci-utils/coveralls:coverage-excluded)))
-       (ci-utils/coveralls:with-coveralls excluded
-         (unless (loop for form in forms
-                       do (format t "~&evaluating ~s~%" form)
-                       always (let ((r (with-fail-on-errors (:code 2)
-                                         (eval (read-from-string form)))))
-                                (format t "~&  returned ~s~%" r)
-                                r))
-           (uiop:quit 1)))))))
+  (declare (optimize debug))
+  (let ((pass 0))
+    (when (> 1 (length argv))
+      (show-help))
+    (with-fail-on-errors (:code 5)
+      (iter (generate arg-list in argv)
+            (for arg = (next arg-list))
+            (cond
+              ((or (string= "--help" arg) (string= "-h" arg))
+               (show-help))
+              ((or (string= "--quickload" arg) (string= "-l" arg))
+               (collect (next arg-list) into loaded-systems))
+              ((or (string= "--coverage-exclude" arg) (string= "-e" arg))
+               (collect (next arg-list) into excluded))
+              ((or (string= "--pass-exit-code" arg) (string= "-r" arg))
+               (setf pass (parse-integer (next arg-list)))
+               (assert (<= 0 pass 255))
+               (when (<= 1 pass 5)
+                 ;; treat this as an error for now, possibly should
+                 ;; have option to remap the error exit codes too?
+                 (error "pass exit code ~s conflicts with one of the~
+                 exit codes used for errors")))
+              (t
+               (collect arg into forms)))
+            ;;evaluate tests here with `loaded-systems`, `excluded`, and `tests` in scope
+            (finally
+             (when loaded-systems
+               (quickload loaded-systems :fail-on-error 3))
+             (setf excluded (nconc excluded (ci-utils/coveralls:coverage-excluded)))
+             (ci-utils/coveralls:with-coveralls excluded
+               (if (loop for form in forms
+                         do (format t "~&evaluating ~s~%" form)
+                         always (let ((r (with-fail-on-errors (:code 2)
+                                           (eval (read-from-string form)))))
+                                  (format t "~&  returned ~s~%" r)
+                                  r))
+                   (uiop:quit pass)
+                   (uiop:quit 1))))))))
