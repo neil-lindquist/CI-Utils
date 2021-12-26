@@ -77,7 +77,7 @@ Options
                  ;; treat this as an error for now, possibly should
                  ;; have option to remap the error exit codes too?
                  (error "pass exit code ~s conflicts with one of the~
-                 exit codes used for errors")))
+                 exit codes used for errors" pass)))
               (t
                (collect arg into forms)))
             ;;evaluate tests here with `loaded-systems`, `excluded`, and `tests` in scope
