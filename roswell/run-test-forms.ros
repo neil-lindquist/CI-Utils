@@ -18,7 +18,7 @@ exec ros -Q -- $0 "$@"
   ;;cmucl crashes with silent on
   (ql:quickload '(:ci-utils/utils) :silent (not (member :cmu *features*))))
 
-(ci-utils/utils:with-fail-on-error (:code 5)
+(ci-utils/utils:with-fail-on-errors (:code 5)
   (ci-utils/utils:quickload '(:ci-utils/coveralls :iterate)
                             :silent (not (member :cmu *features*))))
 
