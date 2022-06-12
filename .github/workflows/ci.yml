@@ -11,6 +11,9 @@ jobs:
   test:
     name: ${{ matrix.lisp }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    env:
+      IS_PUSH_MASTER: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+      BUILD_DOCS: ${{ env.IS_PUSH_MASTER && matrix.os == 'ubuntu-latest' && matrix.lisp = 'sbcl-bin'}}
     strategy:
       matrix:
         lisp: [sbcl-bin, ccl-bin]
@@ -27,3 +30,26 @@ jobs:
         if: runner.os == 'Windows'
         shell: msys2 {0}
         run: roswell/run-fiveam.ros -l ci-utils/test :github-actions-tests :noncoveralls-tests :base-tests
+
+      - name: Build Docs
+        if: ${{ env.BUILD_DOCS }}
+        run: |
+          # copy prewritten files
+          cp -r docs docs-bin
+
+          # Build index page
+          echo '---' > docs-bin/index.md
+          echo 'layout: page' >> docs-bin/index.md
+          ehoc 'meta-description:The documentation page for the CI-Utils Common Lisp library.' >> docs-bin/index.md
+          echo '---' >> docs-bin/index.md
+          cat README.md >> docs-bin/index.md
+
+          # Generate API page
+          ./generate-API-docs.ros
+
+      - name: Deploy Docs
+        if: ${{ env.BUILD_DOCS }}
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: docs-bin
