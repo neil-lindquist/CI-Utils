@@ -35,7 +35,7 @@ jobs:
         run: roswell/run-fiveam.ros -l ci-utils/test :github-actions-tests :noncoveralls-tests :base-tests
 
       - name: Build Docs
-        if: ${{ env.BUILD_DOCS }}
+        if: env.BUILD_DOCS
         run: |
           # copy prewritten files
           cp -r docs docs-bin
@@ -52,7 +52,7 @@ jobs:
           ./generate-API-docs.ros
 
       - name: Deploy Docs
-        if: ${{ env.BUILD_DOCS }}
+        if: env.BUILD_DOCS
         uses: crazy-max/ghaction-github-pages@v3
         with:
           target_branch: gh-pages
