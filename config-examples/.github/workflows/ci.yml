@@ -27,22 +27,6 @@ jobs:
       # This action installs roswell and a few other utilities such as qlot
       - uses: 40ants/setup-lisp@v2
 
-      # These steps install roswell script for the test library
-      # Windows needs to be run with the msys2 shell due to how roswell is installed
-      - name: Install tests (Non-Windows)
-        if: runner.os != 'Windows'
-        shell: bash
-        run:  ros install neil-lindquist/ci-utils # for run-fiveam
-#        run: ros install prove # for run-prove:
-#        run:  ros install rove # for [run-] rove
-      - name: Run tests (Windows)
-        if: runner.os == 'Windows'
-        shell: msys2 {0}
-        run:  ros install neil-lindquist/ci-utils # for run-fiveam
-#        run: ros install prove # for run-prove:
-#        run:  ros install rove # for [run-] rove
-
-
       # These steps run our tests
       # Windows needs to be run with the msys2 shell due to how roswell is installed
       - name: Run tests (Non-Windows)
