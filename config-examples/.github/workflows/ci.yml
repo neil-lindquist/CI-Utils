@@ -6,6 +6,10 @@ on:
   push: # Commits pushed to Github
   pull_request: # Pull request is update
   workflow_dispatch: # Manually dispatched from Github's UI
+  schedule: # Run at the first day of each month
+    # This can detect external factors breaking the tests (such as changes to libraries or CL implementations)
+    # Syntax follows that of cron
+    - cron: '0 0 1 * *'
 
 jobs:
   test:
@@ -18,25 +22,52 @@ jobs:
         os: [windows-latest, ubuntu-latest, macOS-latest]
 
     steps:
-      - name: windows specific settings
-        if: matrix.os == 'windows-latest'
-        run: |
-          git config --global core.autocrlf false
-          echo "::set-env name=ROSWELL_INSTALL_DIR::$HOME/ros"
-          echo "::add-path::$HOME/ros/bin"
-      - uses: actions/checkout@v1
-      - name: Install Roswell
-        env:
-          LISP: ${{ matrix.lisp }}
+      # This action checks out our code in the working directory
+      - uses: actions/checkout@v2
+      # This action installs roswell and a few other utilities such as qlot
+      - uses: 40ants/setup-lisp@v2
+
+      # These steps install roswell script for the test library
+      # Windows needs to be run with the msys2 shell due to how roswell is installed
+      - name: Install tests (Non-Windows)
+        if: runner.os != 'Windows'
         shell: bash
-        run: curl -L https://raw.githubusercontent.com/roswell/roswell/master/scripts/install-for-ci.sh | sh
-      - name: Install Test Framework
-        shell: bash
-        run: ros install neil-lindquist/ci-utils
+        run:  ros install neil-lindquist/ci-utils # for run-fiveam
 #        run: ros install prove # for run-prove:
 #        run:  ros install rove # for [run-] rove
-      - name: Run tests
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run:  ros install neil-lindquist/ci-utils # for run-fiveam
+#        run: ros install prove # for run-prove:
+#        run:  ros install rove # for [run-] rove
+
+
+      # These steps run our tests
+      # Windows needs to be run with the msys2 shell due to how roswell is installed
+      - name: Run tests (Non-Windows)
+        if: runner.os != 'Windows'
         shell: bash
-        run: run-fiveam -e t -l foo/test :foo-tests
-        #run: run-prove foo.asd
-        #run: rove foo.asd
+        run: |
+          # Install the roswell script for the test library
+          ros install neil-lindquist/ci-utils # for run-fiveam
+          #ros install prove # for run-prove:
+          #ros install rove # for [run-] rove
+
+          # Run the tests
+          run-fiveam -e t -l foo/test :foo-tests
+          run-prove foo.asd
+          rove foo.asd
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        shell: msys2 {0}
+        run: |
+          # Install the roswell script for the test library
+          ros install neil-lindquist/ci-utils # for run-fiveam
+          #ros install prove # for run-prove:
+          #ros install rove # for [run-] rove
+
+          # Run the tests
+          run-fiveam -e t -l foo/test :foo-tests
+          run-prove foo.asd
+          rove foo.asd
