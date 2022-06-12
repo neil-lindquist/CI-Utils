@@ -12,6 +12,7 @@ jobs:
         os: [windows-latest, ubuntu-latest, macOS-latest]
 
     steps:
+      - uses: actions/checkout@v2
       - uses: 40ants/setup-lisp@v2
       - name: Run tests
         shell: bash
