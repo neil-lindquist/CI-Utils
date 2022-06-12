@@ -12,8 +12,7 @@ jobs:
     name: ${{ matrix.lisp }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     env:
-      IS_PUSH_MASTER: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-      BUILD_DOCS: ${{ env.IS_PUSH_MASTER && matrix.os == 'ubuntu-latest' && matrix.lisp = 'sbcl-bin'}}
+      BUILD_DOCS: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && matrix.os == 'ubuntu-latest' && matrix.lisp = 'sbcl-bin'}}
     strategy:
       matrix:
         lisp: [sbcl-bin, ccl-bin]
@@ -53,3 +52,5 @@ jobs:
         with:
           target_branch: gh-pages
           build_dir: docs-bin
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
