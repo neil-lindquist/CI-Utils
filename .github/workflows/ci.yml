@@ -12,13 +12,17 @@ jobs:
     name: ${{ matrix.lisp }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     env:
-      BUILD_DOCS: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && matrix.os == 'ubuntu-latest' && matrix.lisp == 'sbcl-bin'}}
+      BUILD_DOCS: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' && matrix.os == 'ubuntu-latest' && matrix.lisp == 'sbcl-bin' }}
     strategy:
       matrix:
         lisp: [sbcl-bin, ccl-bin]
         os: [windows-latest, ubuntu-latest, macOS-latest]
 
     steps:
+      - name: Logging
+        run: |
+          echo BUILD_DOCS ${{env.BUILD_DOCS}}
+          echo ${{ github.event_name == 'push' }} ${{ github.ref == 'refs/heads/master' }} ${{ matrix.os == 'ubuntu-latest' }} ${{ matrix.lisp == 'sbcl-bin' }}
       - uses: actions/checkout@v2
       - uses: 40ants/setup-lisp@v2
       - name: Run tests (Non-Windows)
@@ -44,6 +48,7 @@ jobs:
           cat README.md >> docs-bin/index.md
 
           # Generate API page
+          ros install neil-lindquist/doc-site-generator
           ./generate-API-docs.ros
 
       - name: Deploy Docs
