@@ -39,7 +39,7 @@ jobs:
           # Build index page
           echo '---' > docs-bin/index.md
           echo 'layout: page' >> docs-bin/index.md
-          ehoc 'meta-description:The documentation page for the CI-Utils Common Lisp library.' >> docs-bin/index.md
+          echo 'meta-description:The documentation page for the CI-Utils Common Lisp library.' >> docs-bin/index.md
           echo '---' >> docs-bin/index.md
           cat README.md >> docs-bin/index.md
 
