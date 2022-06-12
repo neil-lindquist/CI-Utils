@@ -12,27 +12,7 @@ jobs:
         os: [windows-latest, ubuntu-latest, macOS-latest]
 
     steps:
-      - uses: msys2/setup-msys2@v2
-        if: matrix.os == 'windows-latest'
-      - name: windows specific settings
-        if: matrix.os == 'windows-latest'
-        run: |
-          git config --global core.autocrlf false
-          echo "ROSWELL_INSTALL_DIR=$HOME/ros" >> $GITHUB_ENV
-          echo "$HOME/ros/bin" >> $GITHUB_PATH
-      - uses: actions/checkout@v1
-      - name: Install Roswell
-        shell: msys2 {0}
-        if: matrix.os == 'windows-latest'
-        env:
-          LISP: ${{ matrix.lisp }}
-        run: curl -L https://raw.githubusercontent.com/roswell/roswell/v20.06.14.107/scripts/install-for-ci.sh | sh -x
-      - name: Install Roswell
-        shell: bash
-        if: matrix.os != 'windows-latest'
-        env:
-          LISP: ${{ matrix.lisp }}
-        run: curl -L https://raw.githubusercontent.com/roswell/roswell/v20.06.14.107/scripts/install-for-ci.sh | sh -x
+      - uses: 40ants/setup-lisp@v2
       - name: Run tests
         shell: bash
         run: roswell/run-fiveam.ros -l ci-utils/test :github-actions-tests :noncoveralls-tests :base-tests
