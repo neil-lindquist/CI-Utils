@@ -1,6 +1,6 @@
 ## CI-Utils
 
-[![Travis Status](https://img.shields.io/travis/neil-lindquist/CI-Utils/master?logo=Travis)](https://travis-ci.org/neil-lindquist/CI-Utils)
+[![Travis Status](https://img.shields.io/badge/Build-Disabled-inactive?logo=Travis)](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing)
 [![CircleCI Status](https://img.shields.io/circleci/build/github/neil-lindquist/CI-Utils/master?logo=CircleCI)](https://circleci.com/gh/neil-lindquist/CI-Utils)
 [![Appveyor Status](https://ci.appveyor.com/api/projects/status/mm1swvm28hpp2oc5/branch/master?svg=true)](https://ci.appveyor.com/project/neil-lindquist/ci-utils/branch/master)
 [![Gitlab CI Status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils/master?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)

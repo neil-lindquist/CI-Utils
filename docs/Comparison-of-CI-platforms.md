@@ -3,7 +3,7 @@ I strongly recommend that, at least for tests, the CI scripts are run on as many
 My basic recommendation for which CI platform to use is Travis CI for Linux and OSX and Appveyor for Windows.
 These platforms are well documented and are commonly used platforms for open source projects.
 
-Currently, CI-Utils supports 7 CI platforms, all of which have cloud hosting and free plans for open source software.
+Currently, CI-Utils supports 7 CI platforms, all of which have cloud hosting and all but one have free plans for open source software.
 A brief description of each is listed below for comparison purposes.
 If there is another platform that you are interested in, please raise a pull request or issue and we can work through adding support and documentation.
 
@@ -25,8 +25,8 @@ Additionally, Travis only supports Linux and OSX, with OSX builds usually being 
 Notably, Travis allows 5 Linux jobs and 2 OSX jobs to be run in parallel.
 Support for Windows is being developed; however, when tested, none of the Windows jobs were actually run.
 
-Travis is free for public repositories.
-Private repositories require payment (with a free trial).
+Travis require [payment for both public and private repositories](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing).
+A free trial is available, providing 1000 minutes of Linux, 500 minutes of Windows, 200 minutes of Mac, or some combination there of.
 Additionally, Travis CI Enterprise provides an option for self hosting, as well as other quality of life benefits.
 
 ### [Appveyor](https://www.appveyor.com/)
