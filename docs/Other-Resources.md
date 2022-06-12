@@ -25,6 +25,9 @@ Common Lisp Libraries
 * [cl-coveralls](https://github.com/fukamachi/cl-coveralls/)
 * [cl-travis](https://github.com/luismbo/cl-travis)
   * [A more recently maintained fork](https://github.com/lispci/cl-travis)
+* [40Ants-CI](https://40ants.com/ci/) - A Github Actions workflow
+  * [setup-lisp](https://40ants.com/setup-lisp/)
+  * [run-tests](https://40ants.com/run-tests/)
 
 Select resources for CL test frameworks
 * [CLiki's list of CL test libraries](https://www.cliki.net/Test%20Framework)
