@@ -17,8 +17,23 @@ jobs:
     pool:
       vmImage: $(imageName)
     steps:
+      - task: PowerShell@2
+        displayName: "Install scoop"
+        env:
+          SCOOP: $(Agent.BuildDirectory)\SCOOP\
+        inputs:
+          targetType: 'inline'
+          script: 'iex (new-object net.webclient).downloadstring(''https://get.scoop.sh'')'
+
+      - task: PowerShell@2
+        displayName: "Add scoop shims to path"
+        env:
+          SCOOP: $(Agent.BuildDirectory)\SCOOP\
+        inputs:
+          targetType: 'inline'
+          script: 'Write-Host "##vso[task.prependpath]$env:SCOOP\Shims"'
+
       - powershell: |
-            iwr -useb get.scoop.sh | iex
             scoop install roswell
             ros install %LISP%
             ros config
