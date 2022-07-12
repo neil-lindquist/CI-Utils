@@ -24,6 +24,8 @@ jobs:
           echo BUILD_DOCS ${{env.BUILD_DOCS}}
           echo ${{ github.event_name == 'push' }} ${{ github.ref == 'refs/heads/master' }} ${{ matrix.os == 'ubuntu-latest' }} ${{ matrix.lisp == 'sbcl-bin' }}
       - uses: actions/checkout@v2
+      - name: Set LISP env var
+        run: echo "LISP=${{ matrix.lisp }}" >> $GITHUB_ENV
       - uses: 40ants/setup-lisp@v2
       - name: Run tests (Non-Windows)
         if: runner.os != 'Windows'
