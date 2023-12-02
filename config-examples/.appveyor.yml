@@ -1,6 +1,6 @@
 ### Example configuration for Appveyor ###
 
-image: Visual Studio 2017
+image: Visual Studio 2022
 
 platform:
     - x64
@@ -21,12 +21,6 @@ environment:
 # note that the roswell scripts have to explicitly be run through bash,
 # since cmd doesn't support shabangs and powershell doesn't support exec
 install:
-  # Mingw updated package signers, so pacman needs to be informed
-  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-  - bash -lc "curl -O http://repo.msys2.org/msys/x86_64/msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
-  - bash -lc "pacman-key --verify msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz.sig"
-  - bash -lc "pacman -U --noconfirm msys2-keyring-r21.b39fb11-1-any.pkg.tar.xz"
-
   - bash -lc "curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh"
   - ros install neil-lindquist/ci-utils #for asdf-register-project and run-fiveam
   - bash -lc "asdf-register-project"
