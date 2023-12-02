@@ -6,7 +6,7 @@
 [![Gitlab CI Status](https://img.shields.io/gitlab/pipeline/neil-lindquist/CI-Utils/master?logo=Gitlab)](https://gitlab.com/neil-lindquist/CI-Utils/pipelines)
 [![Bitbucket pipelines status](https://img.shields.io/bitbucket/pipelines/nlindqu1/ci-utils/master?logo=bitbucket)](https://bitbucket.org/nlindqu1/ci-utils/addon/pipelines/home#!/)
 [![Azure Pipelines Status](https://img.shields.io/azure-devops/build/archer1mail/archer1mail/1/master?logo=azure%20pipelines)](https://dev.azure.com/archer1mail/archer1mail/_build?definitionId=1&_a=summary)
-[![Github Actions Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2Fneil-lindquist%2Fci-utils%2Fbadge&style=flat&label=build)](https://actions-badge.atrox.dev/neil-lindquist/ci-utils/goto)
+[![Github Actions Status](https://img.shields.io/github/actions/workflow/status/neil-lindquist/CI-Utils/ci.yml?logo=github)](https://github.com/neil-lindquist/CI-Utils/actions/workflows/ci.yml)
 
 [![Coveralls coverage](https://img.shields.io/coveralls/github/neil-lindquist/CI-Utils?logo=coveralls)](https://coveralls.io/github/neil-lindquist/CI-Utils)
 
