@@ -18,7 +18,7 @@ jobs:
       vmImage: $(imageName)
     steps:
       - powershell: |
-            iwr -useb get.scoop.sh | iex
+            iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
             scoop install roswell
             ros install %LISP%
             ros config

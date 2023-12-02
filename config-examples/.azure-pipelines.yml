@@ -47,13 +47,14 @@ jobs:
           curl -L https://raw.githubusercontent.com/roswell/roswell/release/scripts/install-for-ci.sh | sh
         displayName: Install Roswell for *nix
         condition: ne( variables['Agent.OS'], 'Windows_NT' )
-      - pwsh: |
-          $env:Path += ";$(Agent.TempDirectory)\roswell;$env:USERPROFILE\.roswell\bin"
-          Write-Host "##vso[task.setvariable variable=PATH]$env:PATH" #Store the configured PATH for later steps.  It is important to do that here, because of complications in managing the type of slash in bash vs pwsh
-          Invoke-WebRequest -Uri "$(ROSWELL_ZIP)" -OutFile Roswell.zip
-          7z x -o"$(Agent.TempDirectory)" Roswell.zip
-          ros install $LISP
-          ros config
+      - powershell: |
+            iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
+            scoop install roswell
+            ros install %LISP%
+            ros config
+            mkdir "$Env:LOCALAPPDATA\config\common-lisp\source-registry.conf.d\"
+            # $Env:dir = "%AGENT_BUILDDIRECTORY:\=/%"
+            Set-Content -Path "$Env:LOCALAPPDATA\config\common-lisp\source-registry.conf.d\ci.conf" -Value "(:tree ""$Env:AGENT_BUILDDIRECTORY"")"
         displayName: Install Roswell for Windows
         condition: eq( variables['Agent.OS'], 'Windows_NT' )
 
