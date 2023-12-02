@@ -13,7 +13,7 @@ jobs:
       matrix:
         win:
           target: 'x86_64-windows-10'
-          imageName: 'vs2017-win2016'
+          imageName: 'windows-latest'
     pool:
       vmImage: $(imageName)
     steps:

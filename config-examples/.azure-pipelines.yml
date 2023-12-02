@@ -21,7 +21,7 @@ jobs:
         # Each combination of OS and implementation needs it's own section
         win_sbcl:
           target: 'x86_64-windows-10'
-          imageName: 'vs2017-win2016'
+          imageName: 'windows-latest'
           LISP: sbcl-bin
         linux_sbcl:
           target: 'x86_64-unknown-linux-gnu'
